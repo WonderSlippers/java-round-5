@@ -4,13 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ab267ad9-d7f5-4fe8-b459-cae54d6e27ae" name="Changes" comment="增添了帖子功能5">
+    <list default="true" id="ab267ad9-d7f5-4fe8-b459-cae54d6e27ae" name="Changes" comment="增添了帖子功能6">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fleaMarket/src/main/java/com/example/fleamarket/controller/PostController.java" beforeDir="false" afterPath="$PROJECT_DIR$/fleaMarket/src/main/java/com/example/fleamarket/controller/PostController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fleaMarket/src/main/java/com/example/fleamarket/service/IReplyService.java" beforeDir="false" afterPath="$PROJECT_DIR$/fleaMarket/src/main/java/com/example/fleamarket/service/IReplyService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fleaMarket/src/main/java/com/example/fleamarket/service/impl/PostService.java" beforeDir="false" afterPath="$PROJECT_DIR$/fleaMarket/src/main/java/com/example/fleamarket/service/impl/PostService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fleaMarket/src/main/java/com/example/fleamarket/service/impl/ReplyService.java" beforeDir="false" afterPath="$PROJECT_DIR$/fleaMarket/src/main/java/com/example/fleamarket/service/impl/ReplyService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fleaMarket/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/fleaMarket/src/main/resources/application.yml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
