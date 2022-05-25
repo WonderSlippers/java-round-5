@@ -1,5 +1,6 @@
 package com.example.fleamarket.entity;
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -15,6 +16,7 @@ import java.util.List;
 @AllArgsConstructor
 @ApiModel("帖子")
 public class Posts{
+    @TableId
     @ApiModelProperty("帖子id")
     int postId;
     @ApiModelProperty("寻物用户的id")

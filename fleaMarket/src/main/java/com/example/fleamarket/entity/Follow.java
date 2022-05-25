@@ -11,7 +11,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 
-@TableName("book_context")
+@TableName("follow")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

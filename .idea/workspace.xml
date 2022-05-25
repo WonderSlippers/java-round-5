@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="dfdd165c-a0b3-4bb9-82bb-4611d1f015f6" name="Changes" comment="增添了帖子功能6">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fleaMarket/src/main/java/com/example/fleamarket/controller/GoodsCollectionController.java" beforeDir="false" afterPath="$PROJECT_DIR$/fleaMarket/src/main/java/com/example/fleamarket/controller/CollectionController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fleaMarket/src/main/java/com/example/fleamarket/entity/Category.java" beforeDir="false" afterPath="$PROJECT_DIR$/fleaMarket/src/main/java/com/example/fleamarket/entity/Category.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fleaMarket/src/main/java/com/example/fleamarket/entity/Comment.java" beforeDir="false" afterPath="$PROJECT_DIR$/fleaMarket/src/main/java/com/example/fleamarket/entity/Comment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fleaMarket/src/main/java/com/example/fleamarket/entity/Follow.java" beforeDir="false" afterPath="$PROJECT_DIR$/fleaMarket/src/main/java/com/example/fleamarket/entity/Follow.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fleaMarket/src/main/java/com/example/fleamarket/entity/GoodReport.java" beforeDir="false" afterPath="$PROJECT_DIR$/fleaMarket/src/main/java/com/example/fleamarket/entity/GoodReport.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fleaMarket/src/main/java/com/example/fleamarket/entity/Goods.java" beforeDir="false" afterPath="$PROJECT_DIR$/fleaMarket/src/main/java/com/example/fleamarket/entity/Goods.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fleaMarket/src/main/java/com/example/fleamarket/entity/History.java" beforeDir="false" afterPath="$PROJECT_DIR$/fleaMarket/src/main/java/com/example/fleamarket/entity/History.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fleaMarket/src/main/java/com/example/fleamarket/entity/Posts.java" beforeDir="false" afterPath="$PROJECT_DIR$/fleaMarket/src/main/java/com/example/fleamarket/entity/Posts.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="删除IDEA-V1" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.tslint" value="true" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
+  </component>
+  <component name="RunManager">
+    <configuration name="FleaMarketApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
+      <module name="fleaMarket" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.example.fleamarket.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.example.fleamarket.FleaMarketApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Spring Boot.FleaMarketApplication" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="TaskManager">
+    <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>

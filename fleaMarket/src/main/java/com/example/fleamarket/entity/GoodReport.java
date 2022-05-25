@@ -1,5 +1,6 @@
 package com.example.fleamarket.entity;
 
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -11,6 +12,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class GoodReport {
+    @TableId
     @ApiModelProperty("审核记录id")
     int reportId;
     @ApiModelProperty("商品的id")
