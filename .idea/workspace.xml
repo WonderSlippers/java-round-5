@@ -5,15 +5,106 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="dfdd165c-a0b3-4bb9-82bb-4611d1f015f6" name="Changes" comment="增添了帖子功能6">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fleaMarket/src/main/java/com/example/fleamarket/controller/GoodsCollectionController.java" beforeDir="false" afterPath="$PROJECT_DIR$/fleaMarket/src/main/java/com/example/fleamarket/controller/CollectionController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fleaMarket/src/main/java/com/example/fleamarket/entity/Category.java" beforeDir="false" afterPath="$PROJECT_DIR$/fleaMarket/src/main/java/com/example/fleamarket/entity/Category.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fleaMarket/src/main/java/com/example/fleamarket/entity/Comment.java" beforeDir="false" afterPath="$PROJECT_DIR$/fleaMarket/src/main/java/com/example/fleamarket/entity/Comment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fleaMarket/src/main/java/com/example/fleamarket/entity/Follow.java" beforeDir="false" afterPath="$PROJECT_DIR$/fleaMarket/src/main/java/com/example/fleamarket/entity/Follow.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fleaMarket/src/main/java/com/example/fleamarket/entity/GoodReport.java" beforeDir="false" afterPath="$PROJECT_DIR$/fleaMarket/src/main/java/com/example/fleamarket/entity/GoodReport.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fleaMarket/src/main/java/com/example/fleamarket/entity/Goods.java" beforeDir="false" afterPath="$PROJECT_DIR$/fleaMarket/src/main/java/com/example/fleamarket/entity/Goods.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fleaMarket/src/main/java/com/example/fleamarket/entity/History.java" beforeDir="false" afterPath="$PROJECT_DIR$/fleaMarket/src/main/java/com/example/fleamarket/entity/History.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fleaMarket/src/main/java/com/example/fleamarket/entity/Posts.java" beforeDir="false" afterPath="$PROJECT_DIR$/fleaMarket/src/main/java/com/example/fleamarket/entity/Posts.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fleaMarket/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fleaMarket/.mvn/wrapper/maven-wrapper.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fleaMarket/.mvn/wrapper/maven-wrapper.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fleaMarket/bbb416750a47663109ad238dcd349fbf_1.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fleaMarket/market.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fleaMarket/mvnw" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fleaMarket/mvnw.cmd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fleaMarket/pom.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fleaMarket/src/main/java/com/example/fleamarket/FleaMarketApplication.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fleaMarket/src/main/java/com/example/fleamarket/config/CorsFilterConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fleaMarket/src/main/java/com/example/fleamarket/config/MybatisPlusConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fleaMarket/src/main/java/com/example/fleamarket/config/SwaggerConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fleaMarket/src/main/java/com/example/fleamarket/controller/AnnouncementController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fleaMarket/src/main/java/com/example/fleamarket/controller/AuditController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fleaMarket/src/main/java/com/example/fleamarket/controller/CategoryController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fleaMarket/src/main/java/com/example/fleamarket/controller/CollectionController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fleaMarket/src/main/java/com/example/fleamarket/controller/CommentController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fleaMarket/src/main/java/com/example/fleamarket/controller/FollowController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fleaMarket/src/main/java/com/example/fleamarket/controller/GoodController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fleaMarket/src/main/java/com/example/fleamarket/controller/GoodReportController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fleaMarket/src/main/java/com/example/fleamarket/controller/HistoryController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fleaMarket/src/main/java/com/example/fleamarket/controller/OrderController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fleaMarket/src/main/java/com/example/fleamarket/controller/PostController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fleaMarket/src/main/java/com/example/fleamarket/controller/PostsCollectionController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fleaMarket/src/main/java/com/example/fleamarket/controller/QuestionController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fleaMarket/src/main/java/com/example/fleamarket/controller/ReplyController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fleaMarket/src/main/java/com/example/fleamarket/controller/UserController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fleaMarket/src/main/java/com/example/fleamarket/dao/IAnnouncementDao.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fleaMarket/src/main/java/com/example/fleamarket/dao/IAuditDao.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fleaMarket/src/main/java/com/example/fleamarket/dao/ICategoryDao.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fleaMarket/src/main/java/com/example/fleamarket/dao/ICommentDao.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fleaMarket/src/main/java/com/example/fleamarket/dao/IFollowDao.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fleaMarket/src/main/java/com/example/fleamarket/dao/IGoodReportDao.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fleaMarket/src/main/java/com/example/fleamarket/dao/IGoodsCollectionDao.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fleaMarket/src/main/java/com/example/fleamarket/dao/IGoodsDao.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fleaMarket/src/main/java/com/example/fleamarket/dao/IHistoryDao.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fleaMarket/src/main/java/com/example/fleamarket/dao/IOrderDao.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fleaMarket/src/main/java/com/example/fleamarket/dao/IPostsCollectionDao.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fleaMarket/src/main/java/com/example/fleamarket/dao/IPostsDao.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fleaMarket/src/main/java/com/example/fleamarket/dao/IQuestionDao.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fleaMarket/src/main/java/com/example/fleamarket/dao/IReplyDao.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fleaMarket/src/main/java/com/example/fleamarket/dao/IUserDao.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fleaMarket/src/main/java/com/example/fleamarket/entity/Announcement.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fleaMarket/src/main/java/com/example/fleamarket/entity/Audit.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fleaMarket/src/main/java/com/example/fleamarket/entity/Category.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fleaMarket/src/main/java/com/example/fleamarket/entity/Comment.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fleaMarket/src/main/java/com/example/fleamarket/entity/Follow.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fleaMarket/src/main/java/com/example/fleamarket/entity/GoodReport.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fleaMarket/src/main/java/com/example/fleamarket/entity/Goods.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fleaMarket/src/main/java/com/example/fleamarket/entity/History.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fleaMarket/src/main/java/com/example/fleamarket/entity/Order.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fleaMarket/src/main/java/com/example/fleamarket/entity/Posts.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fleaMarket/src/main/java/com/example/fleamarket/entity/PostsCollection.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fleaMarket/src/main/java/com/example/fleamarket/entity/Question.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fleaMarket/src/main/java/com/example/fleamarket/entity/Reply.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fleaMarket/src/main/java/com/example/fleamarket/entity/User.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fleaMarket/src/main/java/com/example/fleamarket/exception/BaseException.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fleaMarket/src/main/java/com/example/fleamarket/exception/ControllerException.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fleaMarket/src/main/java/com/example/fleamarket/exception/ServiceException.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fleaMarket/src/main/java/com/example/fleamarket/exception/handler/GlobalExceptionHandler.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fleaMarket/src/main/java/com/example/fleamarket/response/ResultVo.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fleaMarket/src/main/java/com/example/fleamarket/service/IAnnouncementService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fleaMarket/src/main/java/com/example/fleamarket/service/IAuditService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fleaMarket/src/main/java/com/example/fleamarket/service/ICategoryService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fleaMarket/src/main/java/com/example/fleamarket/service/ICommentService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fleaMarket/src/main/java/com/example/fleamarket/service/IFollowService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fleaMarket/src/main/java/com/example/fleamarket/service/IGoodReportService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fleaMarket/src/main/java/com/example/fleamarket/service/IGoodService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fleaMarket/src/main/java/com/example/fleamarket/service/IHistoryService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fleaMarket/src/main/java/com/example/fleamarket/service/IOrderService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fleaMarket/src/main/java/com/example/fleamarket/service/IPostsCollectionService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fleaMarket/src/main/java/com/example/fleamarket/service/IPostsService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fleaMarket/src/main/java/com/example/fleamarket/service/IQuestionService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fleaMarket/src/main/java/com/example/fleamarket/service/IReplyService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fleaMarket/src/main/java/com/example/fleamarket/service/IUserService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fleaMarket/src/main/java/com/example/fleamarket/service/impl/AnnouncementService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fleaMarket/src/main/java/com/example/fleamarket/service/impl/AuditService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fleaMarket/src/main/java/com/example/fleamarket/service/impl/CategoryService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fleaMarket/src/main/java/com/example/fleamarket/service/impl/CommentService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fleaMarket/src/main/java/com/example/fleamarket/service/impl/FollowService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fleaMarket/src/main/java/com/example/fleamarket/service/impl/GoodReportService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fleaMarket/src/main/java/com/example/fleamarket/service/impl/GoodsService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fleaMarket/src/main/java/com/example/fleamarket/service/impl/HistoryService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fleaMarket/src/main/java/com/example/fleamarket/service/impl/OrderService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fleaMarket/src/main/java/com/example/fleamarket/service/impl/PostService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fleaMarket/src/main/java/com/example/fleamarket/service/impl/PostsCollectionService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fleaMarket/src/main/java/com/example/fleamarket/service/impl/QuestionService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fleaMarket/src/main/java/com/example/fleamarket/service/impl/ReplyService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fleaMarket/src/main/java/com/example/fleamarket/service/impl/UserService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fleaMarket/src/main/java/com/example/fleamarket/shrio/CORSFilter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fleaMarket/src/main/java/com/example/fleamarket/shrio/ShiroConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fleaMarket/src/main/java/com/example/fleamarket/shrio/UserRealm.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fleaMarket/src/main/java/com/example/fleamarket/utils/AliyunOSSUtil.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fleaMarket/src/main/resources/META-INF/additional-spring-configuration-metadata.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fleaMarket/src/main/resources/application.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fleaMarket/src/main/resources/application.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fleaMarket/src/test/java/com/example/fleamarket/FleaMarketApplicationTests.java" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -28,7 +119,14 @@
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
@@ -67,5 +165,8 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
   </component>
 </project>

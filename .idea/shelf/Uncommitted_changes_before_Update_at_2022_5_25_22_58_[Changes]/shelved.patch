@@ -1,0 +1,4085 @@
+Index: fleaMarket/src/main/java/com/example/fleamarket/service/ICommentService.java
+===================================================================
+diff --git a/fleaMarket/src/main/java/com/example/fleamarket/service/ICommentService.java b/fleaMarket/src/main/java/com/example/fleamarket/service/ICommentService.java
+deleted file mode 100644
+--- a/fleaMarket/src/main/java/com/example/fleamarket/service/ICommentService.java	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
++++ /dev/null	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
+@@ -1,13 +0,0 @@
+-package com.example.fleamarket.service;
+-
+-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+-import com.baomidou.mybatisplus.core.metadata.IPage;
+-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+-import com.baomidou.mybatisplus.extension.service.IService;
+-import com.example.fleamarket.entity.Comment;
+-
+-public interface ICommentService extends IService<Comment> {
+-    Boolean insert(int commentId,int becommentedId,String Context);
+-    Boolean remove(int commentId);
+-    IPage<Comment> findByPage(Page<Comment> page, LambdaQueryWrapper<Comment> userLambdaQueryWrapper);
+-}
+Index: fleaMarket/src/main/java/com/example/fleamarket/exception/BaseException.java
+===================================================================
+diff --git a/fleaMarket/src/main/java/com/example/fleamarket/exception/BaseException.java b/fleaMarket/src/main/java/com/example/fleamarket/exception/BaseException.java
+deleted file mode 100644
+--- a/fleaMarket/src/main/java/com/example/fleamarket/exception/BaseException.java	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
++++ /dev/null	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
+@@ -1,16 +0,0 @@
+-package com.example.fleamarket.exception;
+-
+-//所有自定义异常的父类，相当于一个中间层
+-public class BaseException extends RuntimeException {
+-
+-	private static final long serialVersionUID = 1L;
+-
+-	public BaseException() {
+-		super();
+-	}
+-
+-	public BaseException(String message) {
+-		super(message);
+-	}
+-
+-}
+Index: fleaMarket/src/main/java/com/example/fleamarket/entity/User.java
+===================================================================
+diff --git a/fleaMarket/src/main/java/com/example/fleamarket/entity/User.java b/fleaMarket/src/main/java/com/example/fleamarket/entity/User.java
+deleted file mode 100644
+--- a/fleaMarket/src/main/java/com/example/fleamarket/entity/User.java	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
++++ /dev/null	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
+@@ -1,45 +0,0 @@
+-package com.example.fleamarket.entity;
+-
+-import com.baomidou.mybatisplus.annotation.IdType;
+-import com.baomidou.mybatisplus.annotation.TableId;
+-import com.baomidou.mybatisplus.annotation.TableName;
+-import io.swagger.annotations.ApiModel;
+-import io.swagger.annotations.ApiModelProperty;
+-import lombok.AllArgsConstructor;
+-import lombok.Data;
+-import lombok.NoArgsConstructor;
+-
+-@TableName("user")
+-@Data
+-@NoArgsConstructor
+-@AllArgsConstructor
+-@ApiModel(description = "用户")
+-public class User{
+-	@TableId(type = IdType.AUTO)
+-	@ApiModelProperty("主键，自增")
+-	int userId;
+-	@ApiModelProperty("角色，ADMIN为管理员，VIP1为普通会员")
+-	String role;
+-	@ApiModelProperty("用户名")
+-	String username;
+-	@ApiModelProperty("密码")
+-	String password;
+-	@ApiModelProperty("昵称")
+-	String nickname;
+-	@ApiModelProperty("盐值")
+-	String salt;
+-	@ApiModelProperty("头像")
+-	String image;
+-	@ApiModelProperty("电话号码")
+-	String phone;
+-	@ApiModelProperty("年龄")
+-	String age;
+-	@ApiModelProperty("qq")
+-	String qq;
+-	@ApiModelProperty("不合格商品数")
+-	int unqualifiedGoods;
+-	@ApiModelProperty("分数")
+-	double score;
+-	@ApiModelProperty("打分人数")
+-	int scoreNumber;
+-}
+Index: fleaMarket/src/main/java/com/example/fleamarket/exception/ControllerException.java
+===================================================================
+diff --git a/fleaMarket/src/main/java/com/example/fleamarket/exception/ControllerException.java b/fleaMarket/src/main/java/com/example/fleamarket/exception/ControllerException.java
+deleted file mode 100644
+--- a/fleaMarket/src/main/java/com/example/fleamarket/exception/ControllerException.java	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
++++ /dev/null	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
+@@ -1,16 +0,0 @@
+-package com.example.fleamarket.exception;
+-
+-//Controller层抛出的异常
+-public class ControllerException extends BaseException {
+-
+-	private static final long serialVersionUID = 1L;
+-
+-	public ControllerException() {
+-		super();
+-	}
+-	
+-	public ControllerException(String message) {
+-		super(message);
+-	}
+-
+-}
+Index: fleaMarket/src/main/java/com/example/fleamarket/service/impl/CategoryService.java
+===================================================================
+diff --git a/fleaMarket/src/main/java/com/example/fleamarket/service/impl/CategoryService.java b/fleaMarket/src/main/java/com/example/fleamarket/service/impl/CategoryService.java
+deleted file mode 100644
+--- a/fleaMarket/src/main/java/com/example/fleamarket/service/impl/CategoryService.java	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
++++ /dev/null	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
+@@ -1,39 +0,0 @@
+-package com.example.fleamarket.service.impl;
+-
+-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+-import com.baomidou.mybatisplus.core.metadata.IPage;
+-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+-import com.example.fleamarket.dao.ICategoryDao;
+-import com.example.fleamarket.entity.Category;
+-import com.example.fleamarket.entity.Posts;
+-import com.example.fleamarket.service.ICategoryService;
+-import org.springframework.stereotype.Service;
+-
+-import java.util.List;
+-
+-@Service
+-public class CategoryService extends ServiceImpl<ICategoryDao, Category> implements ICategoryService {
+-    public Boolean insert(String goodSort,String describe){
+-        Category category = new Category();
+-        category.setGoodSort(goodSort);
+-        category.setGoodDescribe(describe);
+-        return save(category);
+-    }
+-    public Boolean remove(int id) {
+-        LambdaQueryWrapper<Category> lwq = Wrappers.lambdaQuery();
+-        lwq.eq(Category::getCategoryId,id);
+-        return remove(lwq);
+-    }
+-    public IPage<Category> findByPage(Page<Category> page, LambdaQueryWrapper<Category> userLambdaQueryWrapper){
+-        return  baseMapper.selectPage(page,userLambdaQueryWrapper);
+-    }
+-
+-    @Override
+-    public List<Posts> findPostsByCategory(int categoryId) {
+-        return getBaseMapper().getPostsByCategoryId(categoryId);
+-    }
+-
+-
+-}
+Index: fleaMarket/src/main/java/com/example/fleamarket/controller/ReplyController.java
+===================================================================
+diff --git a/fleaMarket/src/main/java/com/example/fleamarket/controller/ReplyController.java b/fleaMarket/src/main/java/com/example/fleamarket/controller/ReplyController.java
+deleted file mode 100644
+--- a/fleaMarket/src/main/java/com/example/fleamarket/controller/ReplyController.java	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
++++ /dev/null	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
+@@ -1,51 +0,0 @@
+-package com.example.fleamarket.controller;
+-import com.example.fleamarket.response.ResultVo;
+-import com.example.fleamarket.service.IPostsService;
+-import com.example.fleamarket.service.IReplyService;
+-import com.example.fleamarket.utils.AliyunOSSUtil;
+-import io.swagger.annotations.ApiOperation;
+-import io.swagger.annotations.ApiParam;
+-import lombok.extern.slf4j.Slf4j;
+-import org.springframework.beans.factory.annotation.Autowired;
+-import org.springframework.web.bind.annotation.CrossOrigin;
+-import org.springframework.web.bind.annotation.GetMapping;
+-import org.springframework.web.bind.annotation.RequestMapping;
+-import org.springframework.web.bind.annotation.RestController;
+-import org.springframework.web.multipart.MultipartFile;
+-
+-@Slf4j
+-@RestController
+-@RequestMapping(value = "/reply")
+-public class ReplyController {
+-    @Autowired
+-    IPostsService iPostsService;
+-    IReplyService iReplyService;
+-    AliyunOSSUtil aliyunOSSUtil;
+-    @ApiOperation("无图片添加回复接口")
+-    @GetMapping("/insertReplyWithoutPic")
+-    public ResultVo insert1(@ApiParam("主键id")int Id,@ApiParam("帖子id")int postId,@ApiParam("楼层")int floor,@ApiParam("卖家id")int sellManId,@ApiParam("描述")String description) {
+-        log.info("添加回复接口");
+-        iReplyService.insertWithoutPic(Id,floor,postId,sellManId,description);
+-        return new ResultVo().setCode(200);
+-
+-    }
+-    @ApiOperation("有图片添加回复接口")
+-    @GetMapping("/insertReplyWithPic")
+-    public ResultVo insert2(@ApiParam("主键id")int Id, @ApiParam("帖子id")int postId, @ApiParam("楼层")int floor, @ApiParam("卖家id")int sellManId, @ApiParam("描述")String description,
+-                            @ApiParam("照片") MultipartFile file) {
+-        log.info("添加回复接口");
+-        String pic = aliyunOSSUtil.upload(file);
+-        iReplyService.insertWithPic(Id,floor,postId,sellManId,pic,description);
+-        return new ResultVo().setCode(200);
+-
+-    }
+-
+-    @ApiOperation("删除回复接口")
+-    @GetMapping("/deleteReply")
+-    public ResultVo delete(@ApiParam("主键id")int Id) {
+-        log.info("添加回复接口");
+-        iReplyService.remove(Id);
+-        return new ResultVo().setCode(200);
+-
+-    }
+-}
+Index: fleaMarket/src/main/java/com/example/fleamarket/controller/AuditController.java
+===================================================================
+diff --git a/fleaMarket/src/main/java/com/example/fleamarket/controller/AuditController.java b/fleaMarket/src/main/java/com/example/fleamarket/controller/AuditController.java
+deleted file mode 100644
+--- a/fleaMarket/src/main/java/com/example/fleamarket/controller/AuditController.java	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
++++ /dev/null	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
+@@ -1,37 +0,0 @@
+-package com.example.fleamarket.controller;
+-
+-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+-import com.example.fleamarket.entity.Audit;
+-import com.example.fleamarket.response.ResultVo;
+-import com.example.fleamarket.service.IAuditService;
+-import io.swagger.annotations.ApiOperation;
+-import io.swagger.annotations.ApiParam;
+-import lombok.extern.slf4j.Slf4j;
+-import org.apache.shiro.authz.annotation.RequiresRoles;
+-import org.springframework.beans.factory.annotation.Autowired;
+-
+-import org.springframework.web.bind.annotation.CrossOrigin;
+-import org.springframework.web.bind.annotation.GetMapping;
+-import org.springframework.web.bind.annotation.RequestMapping;
+-import org.springframework.web.bind.annotation.RestController;
+-
+-@Slf4j
+-@RestController
+-@RequestMapping(value ="/audit")
+-public class AuditController {
+-    @Autowired
+-    IAuditService iAuditService;
+-    @RequiresRoles("admin")
+-    @ApiOperation("查询所有审核记录")
+-    @GetMapping("/getAllAudit")
+-    public ResultVo all(@ApiParam("当前页")int current,@ApiParam("大小") int size){
+-        Page<Audit> page = new Page<>(current ,size );
+-        return new ResultVo().setData(iAuditService.findByPage(page,null));
+-    }
+-    @RequiresRoles("admin")
+-    @ApiOperation("增加审核记录")
+-    @GetMapping("/insert")
+-    public ResultVo insert(@ApiParam("情况")Boolean status,@ApiParam("商品id")int goodId,@ApiParam("管理员id")int adminId){
+-        return new ResultVo().setData(iAuditService.insert(status,goodId,adminId));
+-    }
+-}
+Index: fleaMarket/src/main/java/com/example/fleamarket/dao/IFollowDao.java
+===================================================================
+diff --git a/fleaMarket/src/main/java/com/example/fleamarket/dao/IFollowDao.java b/fleaMarket/src/main/java/com/example/fleamarket/dao/IFollowDao.java
+deleted file mode 100644
+--- a/fleaMarket/src/main/java/com/example/fleamarket/dao/IFollowDao.java	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
++++ /dev/null	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
+@@ -1,9 +0,0 @@
+-package com.example.fleamarket.dao;
+-
+-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+-import com.example.fleamarket.entity.Follow;
+-import org.springframework.stereotype.Repository;
+-
+-@Repository
+-public interface IFollowDao extends BaseMapper<Follow> {
+-}
+Index: fleaMarket/src/main/java/com/example/fleamarket/service/impl/FollowService.java
+===================================================================
+diff --git a/fleaMarket/src/main/java/com/example/fleamarket/service/impl/FollowService.java b/fleaMarket/src/main/java/com/example/fleamarket/service/impl/FollowService.java
+deleted file mode 100644
+--- a/fleaMarket/src/main/java/com/example/fleamarket/service/impl/FollowService.java	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
++++ /dev/null	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
+@@ -1,31 +0,0 @@
+-package com.example.fleamarket.service.impl;
+-
+-
+-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+-import com.baomidou.mybatisplus.core.metadata.IPage;
+-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+-import com.example.fleamarket.dao.IFollowDao;
+-import com.example.fleamarket.entity.Follow;
+-import com.example.fleamarket.service.IFollowService;
+-import org.springframework.stereotype.Service;
+-
+-@Service
+-public class FollowService extends ServiceImpl<IFollowDao, Follow> implements IFollowService {
+-	public Boolean insert(int followerId,int followedId){
+-		Follow follow = new Follow();
+-		follow.setFollowedId(followedId);
+-		follow.setFollowerId(followerId);
+-		return save(follow);
+-	}
+-	public Boolean remove(int followerId,int followedId) {
+-		LambdaQueryWrapper<Follow> lwq = Wrappers.lambdaQuery();
+-		lwq.eq(Follow::getFollowerId,followerId).eq(Follow::getFollowedId,followedId);
+-		return remove(lwq);
+-	}
+-	@Override
+-	public IPage<Follow> findByPage(Page<Follow> page, LambdaQueryWrapper<Follow> userLambdaQueryWrapper){
+-		return  baseMapper.selectPage(page,userLambdaQueryWrapper);
+-	}
+-}
+Index: fleaMarket/src/main/java/com/example/fleamarket/service/impl/UserService.java
+===================================================================
+diff --git a/fleaMarket/src/main/java/com/example/fleamarket/service/impl/UserService.java b/fleaMarket/src/main/java/com/example/fleamarket/service/impl/UserService.java
+deleted file mode 100644
+--- a/fleaMarket/src/main/java/com/example/fleamarket/service/impl/UserService.java	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
++++ /dev/null	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
+@@ -1,98 +0,0 @@
+-package com.example.fleamarket.service.impl;
+-
+-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+-import com.baomidou.mybatisplus.core.metadata.IPage;
+-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+-import com.example.fleamarket.dao.IUserDao;
+-import com.example.fleamarket.entity.User;
+-import com.example.fleamarket.service.IUserService;
+-import com.example.fleamarket.utils.AliyunOSSUtil;
+-import org.apache.shiro.crypto.SecureRandomNumberGenerator;
+-import org.apache.shiro.crypto.hash.Md5Hash;
+-import org.apache.shiro.crypto.hash.SimpleHash;
+-import org.springframework.beans.factory.annotation.Autowired;
+-import org.springframework.stereotype.Service;
+-import org.springframework.web.multipart.MultipartFile;
+-
+-import java.util.Objects;
+-
+-@Service
+-public class UserService extends ServiceImpl<IUserDao, User> implements IUserService {
+-	@Autowired
+-	AliyunOSSUtil aliyunOSSUtil;
+-	@Override
+-	public User queryById(String userName) {
+-		return getOne(new LambdaQueryWrapper<User>()
+-				.eq(User::getUsername,userName)
+-		);
+-	}
+-	@Override
+-	public Boolean insertUser(String username, String password) {
+-		User user = new User();
+-		String salt = new SecureRandomNumberGenerator().nextBytes().toString();
+-		Md5Hash MD5 = new Md5Hash(password,salt,2);
+-		user.setPassword(MD5.toHex());
+-		user.setUsername(username);
+-		user.setSalt(salt);
+-		user.setRole("user::user");
+-		user.setScore(5);
+-		user.setScoreNumber(0);
+-		return save(user);
+-	}
+-	@Override
+-	public String changeUser(int userId, String password1,String password2,String password3) {
+-		User user = baseMapper.selectById(userId);
+-		String password = new SimpleHash("md5", password1, user.getSalt(), 2).toString();
+-		System.out.println(password);
+-		System.out.println(user.getPassword());
+-		if(!Objects.equals(password2, password3))
+-				return "两次密码输入不一致";
+-		else if(password.equals(user.getPassword())) {
+-			Md5Hash MD5 = new Md5Hash(password2, user.getSalt(), 2);
+-			user.setPassword(MD5.toHex());
+-			saveOrUpdate(user);
+-			return "修改成功";
+-		}
+-		return "原密码错误";
+-	}
+-	@Override
+-	public Boolean updateUer(int userId,String nickname,String phone,String age,String qq){
+-		User user = baseMapper.selectById(userId);
+-		user.setUserId(userId);
+-		user.setAge(age);
+-		user.setNickname(nickname);
+-		user.setPhone(phone);
+-		user.setQq(qq);
+-		return saveOrUpdate(user);
+-	}
+-
+-	@Override
+-	public Boolean updatePhoto(MultipartFile file,int userId) {
+-		String url = aliyunOSSUtil.upload(file);
+-		User user = baseMapper.selectById(userId);
+-		user.setImage(url);
+-		user.setUserId(userId);
+-		return saveOrUpdate(user);
+-	}
+-	@Override
+-	public Boolean unqualifiedGoodsUpdate(String userName){
+-		User user = queryById(userName);
+-		user.setUnqualifiedGoods(user.getUnqualifiedGoods()+1);
+-		return saveOrUpdate(user);
+-	}
+-	@Override
+-	public IPage<User> findByPage(Page<User> page, LambdaQueryWrapper<User> userLambdaQueryWrapper){
+-		return  baseMapper.selectPage(page,userLambdaQueryWrapper);
+-	}
+-	@Override
+-	public Boolean scoreUpdate(String userName,double score){
+-		User user = queryById(userName);
+-		double score1= user.getScore();
+-		int scoreNumber=user.getScoreNumber();
+-		user.setScore((score1*scoreNumber+score)/(scoreNumber+1));
+-		user.setScoreNumber(scoreNumber+1);
+-		return saveOrUpdate(user);
+-	}
+-
+-}
+Index: fleaMarket/src/main/java/com/example/fleamarket/entity/Comment.java
+===================================================================
+diff --git a/fleaMarket/src/main/java/com/example/fleamarket/entity/Comment.java b/fleaMarket/src/main/java/com/example/fleamarket/entity/Comment.java
+deleted file mode 100644
+--- a/fleaMarket/src/main/java/com/example/fleamarket/entity/Comment.java	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
++++ /dev/null	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
+@@ -1,30 +0,0 @@
+-package com.example.fleamarket.entity;
+-
+-import com.baomidou.mybatisplus.annotation.IdType;
+-import com.baomidou.mybatisplus.annotation.TableId;
+-import com.baomidou.mybatisplus.annotation.TableName;
+-import io.swagger.annotations.ApiModel;
+-import io.swagger.annotations.ApiModelProperty;
+-import lombok.AllArgsConstructor;
+-import lombok.Data;
+-import lombok.EqualsAndHashCode;
+-import lombok.NoArgsConstructor;
+-
+-
+-
+-@TableName("comment")
+-@Data
+-@NoArgsConstructor
+-@AllArgsConstructor
+-@ApiModel(description = "用户评价")
+-public class Comment{
+-	@TableId(type = IdType.AUTO)
+-	@ApiModelProperty("主键，自增")
+-	int commentId;
+-	@ApiModelProperty("评价用户的id")
+-	int commentUserId;
+-	@ApiModelProperty("被评价用户的id")
+-	int beCommentedUserId;
+-	@ApiModelProperty("评论的内容")
+-	String content;
+-}
+Index: fleaMarket/src/main/java/com/example/fleamarket/controller/GoodController.java
+===================================================================
+diff --git a/fleaMarket/src/main/java/com/example/fleamarket/controller/GoodController.java b/fleaMarket/src/main/java/com/example/fleamarket/controller/GoodController.java
+deleted file mode 100644
+--- a/fleaMarket/src/main/java/com/example/fleamarket/controller/GoodController.java	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
++++ /dev/null	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
+@@ -1,140 +0,0 @@
+-package com.example.fleamarket.controller;
+-
+-
+-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+-import com.example.fleamarket.entity.Goods;
+-import com.example.fleamarket.response.ResultVo;
+-import com.example.fleamarket.service.IGoodService;
+-import io.swagger.annotations.ApiOperation;
+-import io.swagger.annotations.ApiParam;
+-import lombok.extern.slf4j.Slf4j;
+-import org.apache.shiro.authz.annotation.RequiresRoles;
+-import org.springframework.beans.factory.annotation.Autowired;
+-import org.springframework.web.bind.annotation.CrossOrigin;
+-import org.springframework.web.bind.annotation.GetMapping;
+-import org.springframework.web.bind.annotation.RequestMapping;
+-import org.springframework.web.bind.annotation.RestController;
+-import org.springframework.web.multipart.MultipartFile;
+-
+-@Slf4j
+-@RestController
+-@RequestMapping(value ="/good")
+-public class GoodController {
+-    @Autowired
+-    IGoodService iGoodService;
+-    @RequiresRoles("user::user")
+-    @ApiOperation("模糊查询商品")
+-    @GetMapping("/getGood")
+-    public ResultVo list(@ApiParam("商品名称") String goodName,@ApiParam("当前页")int current,@ApiParam("大小")int size) {
+-        log.info("模糊查询商品");
+-        Page<Goods> page = new Page<>(current , size );
+-        LambdaQueryWrapper<Goods> userLambdaQueryWrapper = Wrappers.lambdaQuery();
+-        userLambdaQueryWrapper.like(Goods::getGoodName, goodName);
+-        return new ResultVo().setData(iGoodService.findByPage(page,userLambdaQueryWrapper));
+-    }
+-    @RequiresRoles("user::user")
+-    @ApiOperation("查询所有商品")
+-    @GetMapping("/getAllGood")
+-    public ResultVo all(@ApiParam("当前页")int current,@ApiParam("大小")int size) {
+-        log.info("查询所有商品");
+-        Page<Goods> page = new Page<>(current , size );
+-        return new ResultVo().setData(iGoodService.findByPage(page,null));
+-    }
+-    @RequiresRoles("user::user")
+-    @ApiOperation("根据类别查询商品")
+-    @GetMapping("/getGoodBySort")
+-    public ResultVo sort(@ApiParam("商品类别") String goodSort,@ApiParam("当前页")int current,@ApiParam("大小")int size) {
+-        log.info("根据类别查询商品");
+-        Page<Goods> page = new Page<>(current,size);
+-        LambdaQueryWrapper<Goods> userLambdaQueryWrapper = Wrappers.lambdaQuery();
+-        userLambdaQueryWrapper.eq(Goods::getGoodSort, goodSort);
+-        return new ResultVo().setData(iGoodService.findByPage(page,userLambdaQueryWrapper));
+-    }
+-    @RequiresRoles("user::user")
+-    @ApiOperation("根据类别及关键字查询商品")
+-    @GetMapping("/getGoodBySortByKey")
+-    public ResultVo sortByKey(@ApiParam("商品类别") String goodSort,@ApiParam("商品关键字")String goodName,@ApiParam("当前页")int current,@ApiParam("大小")int size) {
+-        log.info("根据类别查询商品");
+-        Page<Goods> page = new Page<>(current,size);
+-        LambdaQueryWrapper<Goods> userLambdaQueryWrapper = Wrappers.lambdaQuery();
+-        userLambdaQueryWrapper.eq(Goods::getGoodSort, goodSort).like(Goods::getGoodName,goodName);
+-        return new ResultVo().setData(iGoodService.findByPage(page,userLambdaQueryWrapper));
+-    }
+-    @RequiresRoles("user::user")
+-    @ApiOperation("根据id查询商品的详细信息")
+-    @GetMapping("/getGoodById")
+-    public ResultVo list(@ApiParam("商品id") int goodId) {
+-        log.info("根据id查询商品的详细信息");
+-        return new ResultVo().setData(iGoodService.queryById(goodId));
+-    }
+-    @RequiresRoles("user::user")
+-    @ApiOperation("商品基础信息修改")
+-    @GetMapping("/baseMessageUpdate")
+-    public ResultVo baseUpdate(@ApiParam("商品名称")String goodName,@ApiParam("概述") String summary,@ApiParam("详细介绍") String detail, @ApiParam("价格")double price, @ApiParam("分类")String goodSort,@ApiParam("商品id")int goodId) {
+-        log.info("商品基础信息修改");
+-        return new ResultVo().setData(iGoodService.update(goodName, summary, detail, price, goodSort,goodId));
+-    }
+-    @RequiresRoles("admin")
+-    @ApiOperation("查询所有未审核商品")
+-    @GetMapping("/select")
+-    public ResultVo select(@ApiParam("当前页")int current,@ApiParam("大小")int size) {
+-        log.info("查询所有未审核商品");
+-        Page<Goods> page = new Page<>(current , size );
+-        LambdaQueryWrapper<Goods> userLambdaQueryWrapper = Wrappers.lambdaQuery();
+-        userLambdaQueryWrapper.eq(Goods::getApproved, "未审核");
+-        return new ResultVo().setData(iGoodService.findByPage(page,userLambdaQueryWrapper));
+-    }
+-    @RequiresRoles("admin")
+-    @ApiOperation("商品审核状态修改接口")
+-    @GetMapping("/approved")
+-    public ResultVo approved(String approved,int goodId) {
+-        log.info("商品审核状态修改接口");
+-        return new ResultVo().setData(iGoodService.approved(approved,goodId));
+-    }
+-    @RequiresRoles("user::user")
+-    @ApiOperation("商品图片修改接口")
+-    @GetMapping("/photoUpdate")
+-    public ResultVo photoUpdate(@ApiParam("图片")MultipartFile file, @ApiParam("商品id")int goodId) {
+-        log.info("商品图片修改接口");
+-        return new ResultVo().setData(iGoodService.updatePhoto(file, goodId));
+-    }
+-    @RequiresRoles("user::user")
+-    @ApiOperation("增加商品接口")
+-    @GetMapping("/insert")
+-    public ResultVo insert(@ApiParam("商品名称")String goodName, @ApiParam("概述")String summary, @ApiParam("详细介绍")String detail, @ApiParam("价格")double price, @ApiParam("分类")String goodSort,@ApiParam("用户id")int userId){
+-        return new ResultVo().setData(iGoodService.insert(goodName,summary,detail,price,goodSort,userId));
+-
+-    }
+-    @ApiOperation("删除商品接口")
+-    @GetMapping("/remove")
+-    public ResultVo remove(@ApiParam("商品id")int goodId) {
+-        return new ResultVo().setData(iGoodService.remove(goodId));
+-    }
+-
+-    @RequiresRoles("user::user")
+-    @ApiOperation("用户未出售商品查询接口")
+-    @GetMapping("/unsoldGood")
+-    public ResultVo unsoldGood(@ApiParam("用户id")int userId,@ApiParam("当前页")int current,@ApiParam("大小")int size) {
+-        Page<Goods> page = new Page<>(current,size);
+-        LambdaQueryWrapper<Goods> userLambdaQueryWrapper = Wrappers.lambdaQuery();
+-        userLambdaQueryWrapper.eq(Goods::getUserId, userId).eq(Goods::getIsSold,false);
+-        return new ResultVo().setData(iGoodService.findByPage(page,userLambdaQueryWrapper));
+-    }
+-    @RequiresRoles("user::user")
+-    @ApiOperation("用户已出售商品查询接口")
+-    @GetMapping("/isSoldGood")
+-    public ResultVo isSoldGood(@ApiParam("用户id")int userId,@ApiParam("当前页")int current,@ApiParam("大小")int size) {
+-        Page<Goods> page = new Page<>(current,size);
+-        LambdaQueryWrapper<Goods> userLambdaQueryWrapper = Wrappers.lambdaQuery();
+-        userLambdaQueryWrapper.eq(Goods::getUserId, userId).eq(Goods::getIsSold,true);
+-        return new ResultVo().setData(iGoodService.findByPage(page,userLambdaQueryWrapper));
+-    }
+-    @RequiresRoles("user::user")
+-    @ApiOperation("商品出售情况修改接口")
+-    @GetMapping("/statusUpdate")
+-    public ResultVo statusUpdate(int goodId) {
+-        return new ResultVo().setData(iGoodService.isSoldUpdate(goodId));
+-    }
+-}
+Index: fleaMarket/src/main/java/com/example/fleamarket/service/IQuestionService.java
+===================================================================
+diff --git a/fleaMarket/src/main/java/com/example/fleamarket/service/IQuestionService.java b/fleaMarket/src/main/java/com/example/fleamarket/service/IQuestionService.java
+deleted file mode 100644
+--- a/fleaMarket/src/main/java/com/example/fleamarket/service/IQuestionService.java	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
++++ /dev/null	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
+@@ -1,14 +0,0 @@
+-package com.example.fleamarket.service;
+-
+-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+-import com.baomidou.mybatisplus.core.metadata.IPage;
+-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+-import com.baomidou.mybatisplus.extension.service.IService;
+-import com.example.fleamarket.entity.Question;
+-
+-public interface IQuestionService extends IService<Question> {
+-    Boolean update(int questionId,String question,String answer);
+-    IPage<Question> findByPage(Page<Question> page, LambdaQueryWrapper<Question> userLambdaQueryWrapper);
+-    Boolean remove(int questionId);
+-    Boolean insert(String question,String answer);
+-}
+Index: fleaMarket/src/main/java/com/example/fleamarket/dao/IHistoryDao.java
+===================================================================
+diff --git a/fleaMarket/src/main/java/com/example/fleamarket/dao/IHistoryDao.java b/fleaMarket/src/main/java/com/example/fleamarket/dao/IHistoryDao.java
+deleted file mode 100644
+--- a/fleaMarket/src/main/java/com/example/fleamarket/dao/IHistoryDao.java	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
++++ /dev/null	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
+@@ -1,10 +0,0 @@
+-package com.example.fleamarket.dao;
+-
+-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+-import com.example.fleamarket.entity.History;
+-import org.springframework.stereotype.Repository;
+-
+-@Repository
+-public interface IHistoryDao extends BaseMapper<History> {
+-
+-}
+Index: fleaMarket/src/main/java/com/example/fleamarket/config/SwaggerConfig.java
+===================================================================
+diff --git a/fleaMarket/src/main/java/com/example/fleamarket/config/SwaggerConfig.java b/fleaMarket/src/main/java/com/example/fleamarket/config/SwaggerConfig.java
+deleted file mode 100644
+--- a/fleaMarket/src/main/java/com/example/fleamarket/config/SwaggerConfig.java	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
++++ /dev/null	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
+@@ -1,57 +0,0 @@
+-package com.example.fleamarket.config;
+-
+-import org.springframework.context.annotation.Bean;
+-import org.springframework.context.annotation.Configuration;
+-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+-import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
+-import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
+-import springfox.documentation.builders.ApiInfoBuilder;
+-import springfox.documentation.builders.PathSelectors;
+-import springfox.documentation.builders.RequestHandlerSelectors;
+-import springfox.documentation.service.ApiInfo;
+-import springfox.documentation.service.Contact;
+-import springfox.documentation.spi.DocumentationType;
+-import springfox.documentation.spring.web.plugins.Docket;
+-import springfox.documentation.swagger2.annotations.EnableSwagger2;
+-
+-@Configuration
+-@EnableSwagger2//开启Swagger2
+-public class SwaggerConfig extends WebMvcConfigurationSupport {
+-    @Bean
+-    public Docket docket() {
+-        return new Docket(DocumentationType.SWAGGER_2)
+-                .groupName("标准接口")
+-                .apiInfo(apiInfo())
+-                .useDefaultResponseMessages(true)
+-                .forCodeGeneration(false)
+-                .select()
+-                .apis(RequestHandlerSelectors.basePackage("com.example.fleamarket.controller"))
+-                .paths(PathSelectors.any())
+-                .build();
+-    }
+-    private ApiInfo apiInfo() {
+-        return new ApiInfoBuilder()
+-                .title("二手市场交易系统"+"API接口文档")
+-                .description("API文档")
+-                .contact(new Contact("bright", "", ""))
+-                .version("1.0")
+-                .build();
+-    }
+-    @Override
+-    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+-        registry.addResourceHandler("/**").addResourceLocations(
+-                "classpath:/static/");
+-        registry.addResourceHandler("swagger-ui.html").addResourceLocations(
+-                "classpath:/META-INF/resources/");
+-        registry.addResourceHandler("/webjars/**").addResourceLocations(
+-                "classpath:/META-INF/resources/webjars/");
+-        super.addResourceHandlers(registry);
+-    }
+-    @Override
+-    public void addViewControllers(ViewControllerRegistry registry) {
+-        registry.addViewController(" /swagger-ui/")
+-                .setViewName("forward:/swagger-ui/index.html");
+-    }
+-
+-
+-}
+Index: fleaMarket/src/main/java/com/example/fleamarket/config/MybatisPlusConfig.java
+===================================================================
+diff --git a/fleaMarket/src/main/java/com/example/fleamarket/config/MybatisPlusConfig.java b/fleaMarket/src/main/java/com/example/fleamarket/config/MybatisPlusConfig.java
+deleted file mode 100644
+--- a/fleaMarket/src/main/java/com/example/fleamarket/config/MybatisPlusConfig.java	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
++++ /dev/null	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
+@@ -1,22 +0,0 @@
+-package com.example.fleamarket.config;
+-
+-import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
+-import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerInterceptor;
+-import org.springframework.context.annotation.Bean;
+-import org.springframework.context.annotation.Configuration;
+-
+-@Configuration
+-public class MybatisPlusConfig {
+-    @Bean
+-    public MybatisPlusInterceptor mybatisPlusInterceptor() {
+-        MybatisPlusInterceptor interceptor = new MybatisPlusInterceptor();
+-        // 分页拦截器
+-        PaginationInnerInterceptor innerInterceptor = new PaginationInnerInterceptor();
+-        // 设置请求页数大于最大页时的操作：true 调回到首页，false 继续请求，默认为 false
+-        innerInterceptor.setOverflow(false);
+-        // 设置单页的限制数量，-1 表示不限制
+-        innerInterceptor.setMaxLimit(500L);
+-        interceptor.addInnerInterceptor(innerInterceptor);
+-        return interceptor;
+-    }
+-}
+Index: fleaMarket/src/main/java/com/example/fleamarket/controller/CommentController.java
+===================================================================
+diff --git a/fleaMarket/src/main/java/com/example/fleamarket/controller/CommentController.java b/fleaMarket/src/main/java/com/example/fleamarket/controller/CommentController.java
+deleted file mode 100644
+--- a/fleaMarket/src/main/java/com/example/fleamarket/controller/CommentController.java	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
++++ /dev/null	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
+@@ -1,55 +0,0 @@
+-package com.example.fleamarket.controller;
+-
+-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+-import com.example.fleamarket.entity.Comment;
+-import com.example.fleamarket.response.ResultVo;
+-import com.example.fleamarket.service.ICommentService;
+-import io.swagger.annotations.ApiOperation;
+-import io.swagger.annotations.ApiParam;
+-import lombok.extern.slf4j.Slf4j;
+-import org.apache.shiro.authz.annotation.RequiresRoles;
+-import org.springframework.beans.factory.annotation.Autowired;
+-import org.springframework.web.bind.annotation.CrossOrigin;
+-import org.springframework.web.bind.annotation.GetMapping;
+-import org.springframework.web.bind.annotation.RequestMapping;
+-import org.springframework.web.bind.annotation.RestController;
+-
+-@Slf4j
+-@RestController
+-@RequestMapping(value ="/commment")
+-public class CommentController {
+-    @Autowired
+-    ICommentService iCommentService;
+-
+-    public CommentController(ICommentService iCommentService) {
+-        this.iCommentService = iCommentService;
+-    }
+-    @RequiresRoles("user::user")
+-    @ApiOperation("查询所有评论")
+-    @GetMapping("/getAllComment")
+-    public ResultVo all(@ApiParam("用户id")int userId, @ApiParam("当前页")int current, @ApiParam("大小")int size){
+-        log.info("查询所有评论");
+-        Page<Comment> page = new Page<>(current , size );
+-        LambdaQueryWrapper<Comment> userLambdaQueryWrapper = Wrappers.lambdaQuery();
+-        userLambdaQueryWrapper.eq(Comment::getBeCommentedUserId,userId);
+-        return new ResultVo().setData(iCommentService.findByPage(page,userLambdaQueryWrapper));
+-    }
+-    @RequiresRoles("user::user")
+-    @ApiOperation("增加评论")
+-    @GetMapping("/insert")
+-    public ResultVo insert(@ApiParam("评论者id")int commentUserId,@ApiParam("被评论者id")int beCommentUserId,@ApiParam("评论内容")String context){
+-        log.info("增加评论");
+-        return new ResultVo().setData(iCommentService.insert(commentUserId,beCommentUserId,context));
+-    }
+-    @RequiresRoles("usr::user")
+-    @ApiOperation("删除评论")
+-    @GetMapping("/remove")
+-    public ResultVo remove(@ApiParam("评论id")int commentId){
+-        log.info("删除评论");
+-        return new ResultVo().setData(iCommentService.remove(commentId));
+-    }
+-
+-
+-}
+Index: fleaMarket/src/main/java/com/example/fleamarket/exception/ServiceException.java
+===================================================================
+diff --git a/fleaMarket/src/main/java/com/example/fleamarket/exception/ServiceException.java b/fleaMarket/src/main/java/com/example/fleamarket/exception/ServiceException.java
+deleted file mode 100644
+--- a/fleaMarket/src/main/java/com/example/fleamarket/exception/ServiceException.java	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
++++ /dev/null	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
+@@ -1,16 +0,0 @@
+-package com.example.fleamarket.exception;
+-
+-//Service层抛出的异常
+-public class ServiceException extends BaseException {
+-
+-	private static final long serialVersionUID = 1L;
+-
+-	public ServiceException() {
+-		super();
+-	}
+-	
+-	public ServiceException(String message) {
+-		super(message);
+-	}
+-
+-}
+Index: fleaMarket/src/main/java/com/example/fleamarket/shrio/ShiroConfig.java
+===================================================================
+diff --git a/fleaMarket/src/main/java/com/example/fleamarket/shrio/ShiroConfig.java b/fleaMarket/src/main/java/com/example/fleamarket/shrio/ShiroConfig.java
+deleted file mode 100644
+--- a/fleaMarket/src/main/java/com/example/fleamarket/shrio/ShiroConfig.java	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
++++ /dev/null	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
+@@ -1,48 +0,0 @@
+-package com.example.fleamarket.shrio;
+-
+-import com.example.fleamarket.shrio.UserRealm;
+-import org.apache.shiro.mgt.SecurityManager;
+-import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
+-import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
+-import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
+-import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
+-import org.springframework.beans.factory.annotation.Autowired;
+-import org.springframework.beans.factory.annotation.Qualifier;
+-import org.springframework.context.annotation.Bean;
+-import org.springframework.context.annotation.Configuration;
+-
+-@Configuration
+-public class ShiroConfig {
+-    @Bean
+-    public ShiroFilterFactoryBean getShiroFilterFactoryBean(@Qualifier("securityManager") DefaultWebSecurityManager securityManager) {
+-        ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
+-        //设置安全管理器
+-        shiroFilterFactoryBean.setSecurityManager(securityManager);
+-        return shiroFilterFactoryBean;
+-    }
+-    @Bean(name = "securityManager")
+-    public DefaultWebSecurityManager getDefaultWebSecurityManager(@Qualifier("getRealm") UserRealm userRealm) {
+-        DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
+-        //关联realm
+-        securityManager.setRealm(userRealm);
+-        return securityManager;
+-    }
+-    @Bean
+-    public UserRealm getRealm() {
+-        return new UserRealm();
+-    }
+-
+-    @Bean
+-    public DefaultAdvisorAutoProxyCreator advisorAutoProxyCreator(){
+-        DefaultAdvisorAutoProxyCreator advisorAutoProxyCreator = new DefaultAdvisorAutoProxyCreator();
+-        advisorAutoProxyCreator.setProxyTargetClass(true);
+-        return advisorAutoProxyCreator;
+-    }
+-    //开启shiro权限的注解模式
+-    @Bean
+-    public AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor(SecurityManager securityManager) {
+-        AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor = new AuthorizationAttributeSourceAdvisor();
+-        authorizationAttributeSourceAdvisor.setSecurityManager(securityManager);
+-        return authorizationAttributeSourceAdvisor;
+-    }
+-}
+Index: fleaMarket/src/main/java/com/example/fleamarket/dao/IReplyDao.java
+===================================================================
+diff --git a/fleaMarket/src/main/java/com/example/fleamarket/dao/IReplyDao.java b/fleaMarket/src/main/java/com/example/fleamarket/dao/IReplyDao.java
+deleted file mode 100644
+--- a/fleaMarket/src/main/java/com/example/fleamarket/dao/IReplyDao.java	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
++++ /dev/null	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
+@@ -1,9 +0,0 @@
+-package com.example.fleamarket.dao;
+-
+-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+-import com.example.fleamarket.entity.Reply;
+-import org.springframework.stereotype.Repository;
+-
+-@Repository
+-public interface IReplyDao extends BaseMapper<Reply> {
+-}
+Index: fleaMarket/src/main/java/com/example/fleamarket/utils/AliyunOSSUtil.java
+===================================================================
+diff --git a/fleaMarket/src/main/java/com/example/fleamarket/utils/AliyunOSSUtil.java b/fleaMarket/src/main/java/com/example/fleamarket/utils/AliyunOSSUtil.java
+deleted file mode 100644
+--- a/fleaMarket/src/main/java/com/example/fleamarket/utils/AliyunOSSUtil.java	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
++++ /dev/null	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
+@@ -1,200 +0,0 @@
+-package com.example.fleamarket.utils;
+-
+-import com.aliyun.oss.ClientException;
+-import com.aliyun.oss.OSSClient;
+-import com.aliyun.oss.OSSException;
+-import com.aliyun.oss.model.ObjectMetadata;
+-import com.aliyun.oss.model.PutObjectRequest;
+-import com.aliyun.oss.model.PutObjectResult;
+-import org.springframework.beans.factory.annotation.Value;
+-import org.springframework.stereotype.Component;
+-import org.springframework.web.multipart.MultipartFile;
+-
+-import java.io.*;
+-import java.net.URL;
+-import java.text.SimpleDateFormat;
+-import java.util.Date;
+-import java.util.List;
+-import java.util.Random;
+-import java.util.UUID;
+-
+-@Component
+-public class AliyunOSSUtil {
+-    //@Value("${spring.cloud.alicloud.oss.endpoint}")
+-    private static String  endpoint="oss-cn-beijing.aliyuncs.com";
+-    //@Value("${spring.cloud.alicloud.access-key}")
+-    private static String  accessKeyId="LTAI5t6WAjybmXMxC9L5a8ov";
+-    //@Value("${spring.cloud.alicloud.secret-key}")
+-    private static String  accessKeySecret="AKYs2rqmQSGuCe4pHOMXtBDHJ9cClM";
+-    //@Value("${spring.cloud.alicloud.oos.bucketName}")
+-    private static String  bucketName="flea--market";
+-    //@Value("${spring.cloud.alicloud.oos.filehost}")
+-    private static String  filedir="fleaMarket";
+-
+-
+-    /**
+-     *
+-     * 上传图片
+-     * @param file
+-     * @return
+-     */
+-    public  String uploadImg2Oss(MultipartFile file) {
+-        if (file.getSize() > 1024 * 1024 *20) {
+-            //RestResultGenerator.createErrorResult(ResponseEnum.PHOTO_TOO_MAX);
+-            return "图片太大";
+-        }
+-        String originalFilename = file.getOriginalFilename();
+-        String substring = originalFilename.substring(originalFilename.lastIndexOf(".")).toLowerCase();
+-        Random random = new Random();
+-        String name = random.nextInt(10000) + System.currentTimeMillis() + substring;
+-        try {
+-            InputStream inputStream = file.getInputStream();
+-            //RestResultGenerator.createSuccessResult(name);
+-            this.uploadFile2OSS(inputStream, name);
+-            return name;
+-        } catch (Exception e) {
+-            //RestResultGenerator.createErrorResult(ResponseEnum.PHOTO_UPLOAD);
+-            return "上传失败";
+-        }
+-    }
+-
+-    /**
+-     * 上传图片获取fileUrl
+-     * @param instream
+-     * @param fileName
+-     * @return
+-     */
+-    private String uploadFile2OSS(InputStream instream, String fileName) {
+-        String ret = "";
+-        try {
+-            //创建上传Object的Metadata
+-            ObjectMetadata objectMetadata = new ObjectMetadata();
+-            objectMetadata.setContentLength(instream.available());
+-            objectMetadata.setCacheControl("no-cache");
+-            objectMetadata.setHeader("Pragma", "no-cache");
+-            objectMetadata.setContentType(getcontentType(fileName.substring(fileName.lastIndexOf("."))));
+-            objectMetadata.setContentDisposition("inline;filename=" + fileName);
+-            //上传文件
+-
+-            OSSClient ossClient = new OSSClient(endpoint, accessKeyId, accessKeySecret);
+-            PutObjectResult putResult = ossClient.putObject(bucketName, filedir + fileName, instream, objectMetadata);
+-            ret = putResult.getETag();
+-        } catch (IOException e) {
+-            e.printStackTrace();
+-        } finally {
+-            try {
+-                if (instream != null) {
+-                    instream.close();
+-                }
+-            } catch (IOException e) {
+-                e.printStackTrace();
+-            }
+-        }
+-        return ret;
+-    }
+-
+-    public static String getcontentType(String FilenameExtension) {
+-        if (FilenameExtension.equalsIgnoreCase(".bmp")) {
+-            return "image/bmp";
+-        }
+-        if (FilenameExtension.equalsIgnoreCase(".gif")) {
+-            return "image/gif";
+-        }
+-        if (FilenameExtension.equalsIgnoreCase(".jpeg") ||
+-                FilenameExtension.equalsIgnoreCase(".jpg") ||
+-                FilenameExtension.equalsIgnoreCase(".png")) {
+-            return "image/jpg";
+-        }
+-        if (FilenameExtension.equalsIgnoreCase(".html")) {
+-            return "text/html";
+-        }
+-        if (FilenameExtension.equalsIgnoreCase(".txt")) {
+-            return "text/plain";
+-        }
+-        if (FilenameExtension.equalsIgnoreCase(".vsd")) {
+-            return "application/vnd.visio";
+-        }
+-        if (FilenameExtension.equalsIgnoreCase(".pptx") ||
+-                FilenameExtension.equalsIgnoreCase(".ppt")) {
+-            return "application/vnd.ms-powerpoint";
+-        }
+-        if (FilenameExtension.equalsIgnoreCase(".xls") ||
+-                FilenameExtension.equalsIgnoreCase(".xlsx")) {
+-            return "application/vnd.ms-excel";
+-        }
+-        if (FilenameExtension.equalsIgnoreCase(".docx") ||
+-                FilenameExtension.equalsIgnoreCase(".doc")) {
+-            return "application/msword";
+-        }
+-        if (FilenameExtension.equalsIgnoreCase(".xml")) {
+-            return "text/xml";
+-        }
+-        return "image/jpg";
+-    }
+-
+-    /**
+-     * 获取图片路径
+-     * @param fileUrl
+-     * @return
+-     */
+-    public String getImgUrl(String fileUrl) {
+-        if (fileUrl!=null) {
+-            String[] split = fileUrl.split("/");
+-            String url =  this.getUrl(this.filedir + split[split.length - 1]);
+-            return url;
+-        }
+-        return null;
+-    }
+-
+-    /**
+-     * 获得url链接
+-     *
+-     * @param key
+-     * @return
+-     */
+-    public String getUrl(String key) {
+-        // 设置URL过期时间为10年  3600l* 1000*24*365*10
+-        Date expiration = new Date(new Date().getTime() + 3600l * 1000 * 24 * 365 * 10);
+-        // 生成URL
+-        OSSClient ossClient = new OSSClient(endpoint, accessKeyId, accessKeySecret);
+-        URL url = ossClient.generatePresignedUrl(bucketName, key, expiration);
+-        if (url != null) {
+-            return url.toString();
+-        }
+-        return null;
+-    }
+-
+-
+-    /**
+-     * 多图片上传
+-     * @param fileList
+-     * @return
+-     */
+-    public String checkList(List<MultipartFile> fileList) {
+-        String  fileUrl = "";
+-        String  str = "";
+-        String  photoUrl = "";
+-        for(int i = 0;i< fileList.size();i++){
+-            fileUrl = uploadImg2Oss(fileList.get(i));
+-            str = getImgUrl(fileUrl);
+-            if(i == 0){
+-                photoUrl = str;
+-            }else {
+-                photoUrl += "," + str;
+-            }
+-        }
+-        return photoUrl.trim();
+-    }
+-
+-    /**
+-     * 单个图片上传
+-     * @param file
+-     * @return
+-     */
+-    public  String upload(MultipartFile file){
+-        String fileUrl = uploadImg2Oss(file);
+-        String str = getImgUrl(fileUrl);
+-        return str.trim();
+-    }
+-
+-}
+Index: fleaMarket/src/main/resources/application.yml
+===================================================================
+diff --git a/fleaMarket/src/main/resources/application.yml b/fleaMarket/src/main/resources/application.yml
+deleted file mode 100644
+--- a/fleaMarket/src/main/resources/application.yml	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
++++ /dev/null	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
+@@ -1,45 +0,0 @@
+-spring:
+-  datasource:
+-    driver-class-name: com.mysql.cj.jdbc.Driver
+-    url: jdbc:mysql://127.0.0.1:3306/market?&character_set_server=utf8mb4&serverTimezone=GMT%2B8&useSSL=false&allowPublicKeyRetrieval=true
+-    username: root
+-    password: 123456
+-  servlet:
+-    context-path: /joinus
+-    multipart:
+-      max-file-size: 1024MB
+-      max-request-size: 1024MB
+-  mvc:
+-    pathmatch:
+-      matching-strategy: ANT_PATH_MATCHER
+-  op-patterns: com.example.fleamarket.service.*
+-  cloud:
+-    nacos:
+-      discovery:
+-        server-addr: 127.0.0.1:8848
+-    alicloud:
+-      access-key: LTAI5t6WAjybmXMxC9L5a8ov
+-      secret-key: AKYs2rqmQSGuCe4pHOMXtBDHJ9cClM
+-      oss:
+-        endpoint: oss-cn-beijing.aliyuncs.com
+-        bucketName: flea--market
+-        filehost: fleaMarket
+-
+-
+-
+-
+-mybatis:
+-  mapper-locations:classpath:mapper/*.xml
+-  type-aliases-package:com.example.ibookreader.entity
+-  configuration:log-impl:org.apache.ibatis.logging.stdout.StdOutImpl
+-logging:
+-  D:/text/
+-server:
+-  port: 8787
+-
+-
+-
+-
+-
+-
+-
+Index: fleaMarket/src/main/java/com/example/fleamarket/entity/Audit.java
+===================================================================
+diff --git a/fleaMarket/src/main/java/com/example/fleamarket/entity/Audit.java b/fleaMarket/src/main/java/com/example/fleamarket/entity/Audit.java
+deleted file mode 100644
+--- a/fleaMarket/src/main/java/com/example/fleamarket/entity/Audit.java	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
++++ /dev/null	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
+@@ -1,27 +0,0 @@
+-package com.example.fleamarket.entity;
+-
+-import com.baomidou.mybatisplus.annotation.IdType;
+-import com.baomidou.mybatisplus.annotation.TableId;
+-import com.baomidou.mybatisplus.annotation.TableName;
+-import io.swagger.annotations.ApiModelProperty;
+-import lombok.AllArgsConstructor;
+-import lombok.Data;
+-import lombok.EqualsAndHashCode;
+-import lombok.NoArgsConstructor;
+-
+-
+-@TableName("audit")
+-@Data
+-@NoArgsConstructor
+-@AllArgsConstructor
+-public class Audit{
+-    @TableId(type = IdType.AUTO)
+-    @ApiModelProperty("审核记录id")
+-    int auditId;
+-    @ApiModelProperty("商品的id")
+-    int goodId;
+-    @ApiModelProperty("管理员id")
+-    int adminId;
+-    @ApiModelProperty("审核情况")
+-    Boolean status;
+-}
+Index: fleaMarket/src/main/java/com/example/fleamarket/controller/PostController.java
+===================================================================
+diff --git a/fleaMarket/src/main/java/com/example/fleamarket/controller/PostController.java b/fleaMarket/src/main/java/com/example/fleamarket/controller/PostController.java
+deleted file mode 100644
+--- a/fleaMarket/src/main/java/com/example/fleamarket/controller/PostController.java	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
++++ /dev/null	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
+@@ -1,105 +0,0 @@
+-package com.example.fleamarket.controller;
+-
+-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+-import com.example.fleamarket.entity.Category;
+-import com.example.fleamarket.entity.Posts;
+-import com.example.fleamarket.response.ResultVo;
+-import com.example.fleamarket.service.ICategoryService;
+-import com.example.fleamarket.service.IPostsService;
+-import com.example.fleamarket.service.IReplyService;
+-import io.swagger.annotations.ApiOperation;
+-import io.swagger.annotations.ApiParam;
+-import lombok.extern.slf4j.Slf4j;
+-import org.springframework.beans.factory.annotation.Autowired;
+-import org.springframework.web.bind.annotation.CrossOrigin;
+-import org.springframework.web.bind.annotation.GetMapping;
+-import org.springframework.web.bind.annotation.RequestMapping;
+-import org.springframework.web.bind.annotation.RestController;
+-
+-import java.util.List;
+-
+-@Slf4j
+-@RestController
+-@RequestMapping(value = "/post")
+-public class PostController {
+-    @Autowired
+-    IPostsService iPostsService;
+-    IReplyService iReplyService;
+-    ICategoryService iCategoryService;
+-
+-    @ApiOperation("帖子标签添加接口")
+-    @GetMapping("/AddPostCategory")
+-    public ResultVo AddPostCategory(@ApiParam("帖子id") int postId, List<Category> categoryList) {
+-        log.info("帖子标签添加接口");
+-
+-        iPostsService.addCategory(postId, categoryList);
+-
+-        return new ResultVo().setCode(200);
+-
+-    }
+-
+-    @ApiOperation("帖子标签查询接口")
+-    @GetMapping("/getPostsCategory")
+-    public ResultVo queryPostCategory(@ApiParam("帖子id") int postId) {
+-        log.info("帖子标签查询接口");
+-        Posts P = iPostsService.queryById(postId);
+-        P.setCategoryList(
+-                iPostsService.findCategorylist(postId)
+-        );
+-        return new ResultVo().setData(P);
+-
+-    }
+-
+-    @ApiOperation("帖子内容查询接口")
+-    @GetMapping("/getPostsContent")
+-    public ResultVo queryPostContent(@ApiParam("帖子id") int postId) {
+-        log.info("帖子内容查询接口");
+-        Posts P = iPostsService.queryById(postId);
+-        P.setReplyList(
+-                iReplyService.queryForReplyList(postId)
+-        );
+-        return new ResultVo().setData(P);
+-
+-    }
+-
+-    @ApiOperation("增加帖子接口")
+-    @GetMapping("/insert")
+-    public ResultVo insert(@ApiParam("商品id") int postId, @ApiParam("购买者id") int buyerId, @ApiParam("描述") String description) {
+-        return new ResultVo().setData(iPostsService.insert(postId, buyerId, description));
+-    }
+-
+-    @ApiOperation("用户拥有帖子查询接口")
+-    @GetMapping("/getUserPost")
+-    public ResultVo query(@ApiParam("帖子id") int buyerId) {
+-        log.info("帖子内容查询接口");
+-        List posts;
+-
+-        posts = iPostsService.list(
+-                new LambdaQueryWrapper<Posts>()
+-                        .eq(Posts::getBuyerId, buyerId));
+-        return new ResultVo().setData(posts);
+-
+-    }
+-
+-    @ApiOperation("根据标签查询帖子接口")
+-    @GetMapping("/getPostsByCategory")
+-    public ResultVo queryPostByCategory(@ApiParam("标签id") String categoryName) {
+-        log.info("帖子标签查询接口");
+-               Category c= iCategoryService.getOne(new LambdaQueryWrapper<Category>()
+-                       .eq(Category::getGoodSort, categoryName));
+-               List<Posts>list= iCategoryService.findPostsByCategory(c.getCategoryId());
+-
+-        return new ResultVo().setData(list);
+-
+-    }
+-
+-    @ApiOperation("删除帖子接口")
+-    @GetMapping("/deletePosts")
+-    public ResultVo deletePosts(@ApiParam("帖子id") int postId) {
+-        log.info("删除帖子接口");
+-
+-        return new ResultVo().setData(iPostsService.remove(postId));
+-
+-    }
+-
+-}
+Index: fleaMarket/src/main/java/com/example/fleamarket/entity/History.java
+===================================================================
+diff --git a/fleaMarket/src/main/java/com/example/fleamarket/entity/History.java b/fleaMarket/src/main/java/com/example/fleamarket/entity/History.java
+deleted file mode 100644
+--- a/fleaMarket/src/main/java/com/example/fleamarket/entity/History.java	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
++++ /dev/null	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
+@@ -1,28 +0,0 @@
+-package com.example.fleamarket.entity;
+-
+-
+-import com.baomidou.mybatisplus.annotation.IdType;
+-import com.baomidou.mybatisplus.annotation.TableId;
+-import com.baomidou.mybatisplus.annotation.TableName;
+-import io.swagger.annotations.ApiModel;
+-import io.swagger.annotations.ApiModelProperty;
+-import lombok.AllArgsConstructor;
+-import lombok.Data;
+-import lombok.EqualsAndHashCode;
+-import lombok.NoArgsConstructor;
+-
+-
+-@TableName("history")
+-@Data
+-@NoArgsConstructor
+-@AllArgsConstructor
+-@ApiModel(description = "浏览记录")
+-public class History{
+-    @TableId(type = IdType.AUTO)
+-    @ApiModelProperty("主键，自增")
+-    int id;
+-    @ApiModelProperty("用户的id")
+-    int userId;
+-    @ApiModelProperty("商品的id")
+-    int goodsId;
+-}
+Index: fleaMarket/src/main/java/com/example/fleamarket/controller/QuestionController.java
+===================================================================
+diff --git a/fleaMarket/src/main/java/com/example/fleamarket/controller/QuestionController.java b/fleaMarket/src/main/java/com/example/fleamarket/controller/QuestionController.java
+deleted file mode 100644
+--- a/fleaMarket/src/main/java/com/example/fleamarket/controller/QuestionController.java	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
++++ /dev/null	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
+@@ -1,50 +0,0 @@
+-package com.example.fleamarket.controller;
+-
+-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+-import com.example.fleamarket.entity.Announcement;
+-import com.example.fleamarket.entity.Question;
+-import com.example.fleamarket.response.ResultVo;
+-import com.example.fleamarket.service.IAnnouncementService;
+-import com.example.fleamarket.service.IQuestionService;
+-import io.swagger.annotations.ApiOperation;
+-import io.swagger.annotations.ApiParam;
+-import lombok.extern.slf4j.Slf4j;
+-import org.apache.shiro.authz.annotation.RequiresRoles;
+-import org.springframework.beans.factory.annotation.Autowired;
+-import org.springframework.web.bind.annotation.CrossOrigin;
+-import org.springframework.web.bind.annotation.GetMapping;
+-import org.springframework.web.bind.annotation.RequestMapping;
+-import org.springframework.web.bind.annotation.RestController;
+-
+-@Slf4j
+-@RestController
+-@RequestMapping(value = "/question")
+-public class QuestionController {
+-    @Autowired
+-    IQuestionService iQuestionService;
+-    @ApiOperation("查询所有问题")
+-    @GetMapping("/getAllAnnouncement")
+-    public ResultVo all(@ApiParam("当前页")int current, @ApiParam("大小") int size){
+-        Page<Question> page = new Page<>(current, size );
+-        return new ResultVo().setData(iQuestionService.findByPage(page,null));
+-    }
+-    @RequiresRoles("admin")
+-    @ApiOperation("增加问题")
+-    @GetMapping("/insert")
+-    public ResultVo insert(@ApiParam("问题")String question,@ApiParam("回答")String answer){
+-        return new ResultVo().setData(iQuestionService.insert(question,answer));
+-    }
+-    @RequiresRoles("admin")
+-    @ApiOperation("删除问题")
+-    @GetMapping("/remove")
+-    public ResultVo remove(@ApiParam("公告id")int questionId){
+-        return new ResultVo().setData(iQuestionService.remove(questionId));
+-    }
+-    @RequiresRoles("admin")
+-    @ApiOperation("修改问题")
+-    @GetMapping("/update")
+-    public ResultVo baseUpdate(@ApiParam("问题id")int questionId,@ApiParam("问题")String question,@ApiParam("回答")String answer) {
+-        log.info("问题修改");
+-        return new ResultVo().setData(iQuestionService.update(questionId,question,answer));
+-    }
+-}
+Index: fleaMarket/src/main/java/com/example/fleamarket/dao/IAnnouncementDao.java
+===================================================================
+diff --git a/fleaMarket/src/main/java/com/example/fleamarket/dao/IAnnouncementDao.java b/fleaMarket/src/main/java/com/example/fleamarket/dao/IAnnouncementDao.java
+deleted file mode 100644
+--- a/fleaMarket/src/main/java/com/example/fleamarket/dao/IAnnouncementDao.java	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
++++ /dev/null	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
+@@ -1,9 +0,0 @@
+-package com.example.fleamarket.dao;
+-
+-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+-import com.example.fleamarket.entity.Announcement;
+-import org.springframework.stereotype.Repository;
+-
+-@Repository
+-public interface IAnnouncementDao extends BaseMapper<Announcement> {
+-}
+Index: fleaMarket/src/main/java/com/example/fleamarket/service/impl/AnnouncementService.java
+===================================================================
+diff --git a/fleaMarket/src/main/java/com/example/fleamarket/service/impl/AnnouncementService.java b/fleaMarket/src/main/java/com/example/fleamarket/service/impl/AnnouncementService.java
+deleted file mode 100644
+--- a/fleaMarket/src/main/java/com/example/fleamarket/service/impl/AnnouncementService.java	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
++++ /dev/null	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
+@@ -1,28 +0,0 @@
+-package com.example.fleamarket.service.impl;
+-
+-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+-import com.baomidou.mybatisplus.core.metadata.IPage;
+-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+-import com.example.fleamarket.dao.IAnnouncementDao;
+-import com.example.fleamarket.entity.Announcement;
+-import com.example.fleamarket.service.IAnnouncementService;
+-import org.springframework.stereotype.Service;
+-
+-@Service
+-public class AnnouncementService extends ServiceImpl<IAnnouncementDao, Announcement> implements IAnnouncementService {
+-    public Boolean insert(String context){
+-        Announcement announcement = new Announcement();
+-        announcement.setContext(context);
+-        return save(announcement);
+-    }
+-    public Boolean remove(int announcementId) {
+-        LambdaQueryWrapper<Announcement> lwq = Wrappers.lambdaQuery();
+-        lwq.eq(Announcement::getAnnouncementId,announcementId);
+-        return remove(lwq);
+-    }
+-    public IPage<Announcement> findByPage(Page<Announcement> page,LambdaQueryWrapper<Announcement> userLambdaQueryWrapper){
+-        return  baseMapper.selectPage(page,userLambdaQueryWrapper);
+-    }
+-}
+Index: fleaMarket/src/main/java/com/example/fleamarket/service/impl/HistoryService.java
+===================================================================
+diff --git a/fleaMarket/src/main/java/com/example/fleamarket/service/impl/HistoryService.java b/fleaMarket/src/main/java/com/example/fleamarket/service/impl/HistoryService.java
+deleted file mode 100644
+--- a/fleaMarket/src/main/java/com/example/fleamarket/service/impl/HistoryService.java	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
++++ /dev/null	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
+@@ -1,31 +0,0 @@
+-package com.example.fleamarket.service.impl;
+-
+-
+-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+-import com.baomidou.mybatisplus.core.metadata.IPage;
+-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+-import com.example.fleamarket.dao.IHistoryDao;
+-import com.example.fleamarket.entity.History;
+-import com.example.fleamarket.service.IHistoryService;
+-import org.springframework.stereotype.Service;
+-
+-@Service
+-public class HistoryService extends ServiceImpl<IHistoryDao, History> implements IHistoryService {
+-    public Boolean insert(int userId,int goodId){
+-        History history =new History();
+-        history.setGoodsId(goodId);
+-        history.setUserId(userId);
+-        return save(history);
+-    }
+-    public Boolean remove(int userId,int goodId) {
+-        LambdaQueryWrapper<History> lwq = Wrappers.lambdaQuery();
+-        lwq.eq(History::getUserId,userId).eq(History::getGoodsId,goodId);
+-        return remove(lwq);
+-    }
+-    @Override
+-    public IPage<History> findByPage(Page<History> page, LambdaQueryWrapper<History> userLambdaQueryWrapper){
+-        return  baseMapper.selectPage(page,userLambdaQueryWrapper);
+-    }
+-}
+Index: fleaMarket/src/main/java/com/example/fleamarket/service/IReplyService.java
+===================================================================
+diff --git a/fleaMarket/src/main/java/com/example/fleamarket/service/IReplyService.java b/fleaMarket/src/main/java/com/example/fleamarket/service/IReplyService.java
+deleted file mode 100644
+--- a/fleaMarket/src/main/java/com/example/fleamarket/service/IReplyService.java	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
++++ /dev/null	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
+@@ -1,12 +0,0 @@
+-package com.example.fleamarket.service;
+-import com.baomidou.mybatisplus.extension.service.IService;
+-import com.example.fleamarket.entity.Reply;
+-
+-import java.util.List;
+-
+-public interface IReplyService extends IService<Reply>{
+-    boolean insertWithPic(int Id,int floor,int postId,int sellManId,String pic,String description);
+-    boolean insertWithoutPic(int Id,int floor,int postId,int sellManId,String description);
+-    Boolean remove(int postId);
+-    List queryForReplyList(int postid);
+-}
+Index: fleaMarket/src/main/java/com/example/fleamarket/service/impl/OrderService.java
+===================================================================
+diff --git a/fleaMarket/src/main/java/com/example/fleamarket/service/impl/OrderService.java b/fleaMarket/src/main/java/com/example/fleamarket/service/impl/OrderService.java
+deleted file mode 100644
+--- a/fleaMarket/src/main/java/com/example/fleamarket/service/impl/OrderService.java	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
++++ /dev/null	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
+@@ -1,40 +0,0 @@
+-package com.example.fleamarket.service.impl;
+-
+-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+-import com.example.fleamarket.dao.IOrderDao;
+-import com.example.fleamarket.entity.Order;
+-import com.example.fleamarket.service.IOrderService;
+-import org.springframework.stereotype.Service;
+-
+-@Service
+-public class OrderService extends ServiceImpl<IOrderDao, Order> implements IOrderService {
+-    @Override
+-    public Boolean statusUpdate(int orderId) {
+-       Order order = baseMapper.selectById(orderId);
+-       order.setOrderStatus("已收货");
+-       return saveOrUpdate(order);
+-    }
+-
+-    @Override
+-    public Boolean baseUpdate(String buyerName, String phoneNumber,int orderId) {
+-        Order order = baseMapper.selectById(orderId);
+-        order.setBuyerName(buyerName);
+-        order.setPhoneNumber(phoneNumber);
+-        return saveOrUpdate(order);
+-    }
+-    @Override
+-    public int insert(int goodId,int solderId,int buyerId,String time,String buyerName,String phoneNumber){
+-        Order order = new Order();
+-        order.setGoodId(goodId);
+-        order.setBuyerId(buyerId);
+-        order.setSolderId(solderId);
+-        order.setTime(time);
+-        order.setBuyerName(buyerName);
+-        order.setPhoneNumber(phoneNumber);
+-        order.setOrderStatus("未收货");
+-        save(order);
+-        return order.getOrderId();
+-    }
+-}
+Index: fleaMarket/src/main/java/com/example/fleamarket/entity/Order.java
+===================================================================
+diff --git a/fleaMarket/src/main/java/com/example/fleamarket/entity/Order.java b/fleaMarket/src/main/java/com/example/fleamarket/entity/Order.java
+deleted file mode 100644
+--- a/fleaMarket/src/main/java/com/example/fleamarket/entity/Order.java	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
++++ /dev/null	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
+@@ -1,39 +0,0 @@
+-package com.example.fleamarket.entity;
+-
+-
+-import com.baomidou.mybatisplus.annotation.IdType;
+-import com.baomidou.mybatisplus.annotation.TableId;
+-import com.baomidou.mybatisplus.annotation.TableName;
+-import io.swagger.annotations.ApiModel;
+-import io.swagger.annotations.ApiModelProperty;
+-import lombok.AllArgsConstructor;
+-import lombok.Data;
+-import lombok.EqualsAndHashCode;
+-import lombok.NoArgsConstructor;
+-
+-
+-@TableName("orders")
+-@Data
+-@NoArgsConstructor
+-@AllArgsConstructor
+-@ApiModel(description = "订单")
+-public class Order{
+-    @TableId(type = IdType.AUTO)
+-    @ApiModelProperty("商品id")
+-    int goodId;
+-    @ApiModelProperty("出售用户的id")
+-    int  solderId;
+-    @ApiModelProperty("购买用户的id")
+-    int buyerId;
+-    @ApiModelProperty("订单的id")
+-    int orderId;
+-    @ApiModelProperty("下单时间")
+-    String time;
+-    @ApiModelProperty("购买人姓名")
+-    String buyerName;
+-    @ApiModelProperty("联系电话")
+-    String phoneNumber;
+-    @ApiModelProperty("订单状态")
+-    String orderStatus;
+-
+-}
+Index: fleaMarket/src/main/java/com/example/fleamarket/entity/Reply.java
+===================================================================
+diff --git a/fleaMarket/src/main/java/com/example/fleamarket/entity/Reply.java b/fleaMarket/src/main/java/com/example/fleamarket/entity/Reply.java
+deleted file mode 100644
+--- a/fleaMarket/src/main/java/com/example/fleamarket/entity/Reply.java	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
++++ /dev/null	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
+@@ -1,35 +0,0 @@
+-package com.example.fleamarket.entity;
+-import com.baomidou.mybatisplus.annotation.TableName;
+-import io.swagger.annotations.ApiModel;
+-import io.swagger.annotations.ApiModelProperty;
+-import lombok.AllArgsConstructor;
+-import lombok.Data;
+-import lombok.NoArgsConstructor;
+-
+-@TableName("reply")
+-@Data
+-@NoArgsConstructor
+-@AllArgsConstructor
+-@ApiModel("帖子")
+-public class Reply{
+-    @ApiModelProperty("主键id")
+-    int Id;
+-    @ApiModelProperty("对应帖子id")
+-    int postId;
+-    @ApiModelProperty("回复用户的id")
+-    int sellManId;
+-    @ApiModelProperty("描述")
+-    String description;
+-    @ApiModelProperty("图片")
+-    String pic;
+-    @ApiModelProperty("楼层")
+-    int floor;
+-    public Reply(int id, int postId, int sellManId, String description,  int floor) {
+-        Id = id;
+-        this.postId = postId;
+-        this.sellManId = sellManId;
+-        this.description = description;
+-        this.pic = null;
+-        this.floor = floor;
+-    }
+-}
+Index: fleaMarket/src/main/java/com/example/fleamarket/service/IAnnouncementService.java
+===================================================================
+diff --git a/fleaMarket/src/main/java/com/example/fleamarket/service/IAnnouncementService.java b/fleaMarket/src/main/java/com/example/fleamarket/service/IAnnouncementService.java
+deleted file mode 100644
+--- a/fleaMarket/src/main/java/com/example/fleamarket/service/IAnnouncementService.java	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
++++ /dev/null	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
+@@ -1,13 +0,0 @@
+-package com.example.fleamarket.service;
+-
+-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+-import com.baomidou.mybatisplus.core.metadata.IPage;
+-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+-import com.baomidou.mybatisplus.extension.service.IService;
+-import com.example.fleamarket.entity.Announcement;
+-
+-public interface IAnnouncementService extends IService<Announcement> {
+-    Boolean insert(String context);
+-    Boolean remove(int announcementId);
+-    IPage<Announcement> findByPage(Page<Announcement> page, LambdaQueryWrapper<Announcement> userLambdaQueryWrapper);
+-}
+Index: fleaMarket/src/main/java/com/example/fleamarket/controller/HistoryController.java
+===================================================================
+diff --git a/fleaMarket/src/main/java/com/example/fleamarket/controller/HistoryController.java b/fleaMarket/src/main/java/com/example/fleamarket/controller/HistoryController.java
+deleted file mode 100644
+--- a/fleaMarket/src/main/java/com/example/fleamarket/controller/HistoryController.java	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
++++ /dev/null	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
+@@ -1,45 +0,0 @@
+-package com.example.fleamarket.controller;
+-
+-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+-import com.example.fleamarket.entity.History;
+-import com.example.fleamarket.response.ResultVo;
+-import com.example.fleamarket.service.IHistoryService;
+-import io.swagger.annotations.ApiOperation;
+-import io.swagger.annotations.ApiParam;
+-import lombok.extern.slf4j.Slf4j;
+-import org.springframework.beans.factory.annotation.Autowired;
+-import org.springframework.web.bind.annotation.CrossOrigin;
+-import org.springframework.web.bind.annotation.GetMapping;
+-import org.springframework.web.bind.annotation.RequestMapping;
+-import org.springframework.web.bind.annotation.RestController;
+-
+-@Slf4j
+-@RestController
+-@RequestMapping(value ="/history")
+-public class HistoryController {
+-    @Autowired
+-    IHistoryService iHistoryService;
+-    @ApiOperation("查询所有历史")
+-    @GetMapping("/getAllHistory")
+-    public ResultVo all(int userId, @ApiParam("当前页")int current,@ApiParam("大小") int size){
+-        log.info("查询所有历史");
+-        Page<History> page = new Page<>(current,size);
+-        LambdaQueryWrapper<History> userLambdaQueryWrapper = Wrappers.lambdaQuery();
+-        userLambdaQueryWrapper.eq(History::getUserId,userId);
+-        return new ResultVo().setData(iHistoryService.findByPage(page,userLambdaQueryWrapper));
+-    }
+-    @ApiOperation("增加历史")
+-    @GetMapping("/insert")
+-    public ResultVo insert(@ApiParam("用户id")int userId,@ApiParam("商品id")int goodId){
+-        log.info("增加历史");
+-        return new ResultVo().setData(iHistoryService.insert(userId,goodId));
+-    }
+-    @ApiOperation("删除历史")
+-    @GetMapping("/remove")
+-    public ResultVo remove(@ApiParam("用户id")int userId,@ApiParam("商品id")int goodId){
+-        log.info("删除历史");
+-        return new ResultVo().setData(iHistoryService.remove(userId,goodId));
+-    }
+-}
+Index: fleaMarket/src/main/java/com/example/fleamarket/dao/IQuestionDao.java
+===================================================================
+diff --git a/fleaMarket/src/main/java/com/example/fleamarket/dao/IQuestionDao.java b/fleaMarket/src/main/java/com/example/fleamarket/dao/IQuestionDao.java
+deleted file mode 100644
+--- a/fleaMarket/src/main/java/com/example/fleamarket/dao/IQuestionDao.java	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
++++ /dev/null	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
+@@ -1,10 +0,0 @@
+-package com.example.fleamarket.dao;
+-
+-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+-import com.example.fleamarket.entity.Posts;
+-import com.example.fleamarket.entity.Question;
+-import org.springframework.stereotype.Repository;
+-
+-@Repository
+-public interface IQuestionDao extends BaseMapper<Question> {
+-}
+Index: fleaMarket/src/main/java/com/example/fleamarket/dao/IGoodsCollectionDao.java
+===================================================================
+diff --git a/fleaMarket/src/main/java/com/example/fleamarket/dao/IGoodsCollectionDao.java b/fleaMarket/src/main/java/com/example/fleamarket/dao/IGoodsCollectionDao.java
+deleted file mode 100644
+--- a/fleaMarket/src/main/java/com/example/fleamarket/dao/IGoodsCollectionDao.java	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
++++ /dev/null	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
+@@ -1,10 +0,0 @@
+-package com.example.fleamarket.dao;
+-
+-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+-import com.example.fleamarket.entity.GoodsCollection;
+-import org.springframework.stereotype.Repository;
+-
+-@Repository
+-public interface IGoodsCollectionDao extends BaseMapper<GoodsCollection> {
+-
+-}
+Index: fleaMarket/src/main/java/com/example/fleamarket/service/impl/PostsCollectionService.java
+===================================================================
+diff --git a/fleaMarket/src/main/java/com/example/fleamarket/service/impl/PostsCollectionService.java b/fleaMarket/src/main/java/com/example/fleamarket/service/impl/PostsCollectionService.java
+deleted file mode 100644
+--- a/fleaMarket/src/main/java/com/example/fleamarket/service/impl/PostsCollectionService.java	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
++++ /dev/null	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
+@@ -1,33 +0,0 @@
+-package com.example.fleamarket.service.impl;
+-
+-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+-import com.baomidou.mybatisplus.core.metadata.IPage;
+-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+-import com.example.fleamarket.dao.IGoodsCollectionDao;
+-import com.example.fleamarket.dao.IPostsCollectionDao;
+-import com.example.fleamarket.entity.GoodsCollection;
+-import com.example.fleamarket.entity.PostsCollection;
+-import com.example.fleamarket.service.IGoodsCollectionService;
+-import com.example.fleamarket.service.IPostsCollectionService;
+-import org.springframework.stereotype.Service;
+-
+-@Service
+-public class PostsCollectionService extends ServiceImpl<IPostsCollectionDao, PostsCollection> implements IPostsCollectionService {
+-    public Boolean insert(int userId,int goodId){
+-        PostsCollection postsCollection = new PostsCollection();
+-        postsCollection.setUserId(userId);
+-        postsCollection.setPostId(goodId);
+-        return save(postsCollection);
+-    }
+-    public Boolean remove(int userId,int postId) {
+-        LambdaQueryWrapper<PostsCollection> lwq = Wrappers.lambdaQuery();
+-        lwq.eq(PostsCollection::getUserId,userId).eq(PostsCollection::getPostId,postId);
+-        return remove(lwq);
+-    }
+-    public IPage<PostsCollection> findByPage(Page<PostsCollection> page, LambdaQueryWrapper<PostsCollection> userLambdaQueryWrapper){
+-        return  baseMapper.selectPage(page,userLambdaQueryWrapper);
+-    }
+-
+-}
+Index: fleaMarket/src/main/java/com/example/fleamarket/service/IHistoryService.java
+===================================================================
+diff --git a/fleaMarket/src/main/java/com/example/fleamarket/service/IHistoryService.java b/fleaMarket/src/main/java/com/example/fleamarket/service/IHistoryService.java
+deleted file mode 100644
+--- a/fleaMarket/src/main/java/com/example/fleamarket/service/IHistoryService.java	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
++++ /dev/null	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
+@@ -1,13 +0,0 @@
+-package com.example.fleamarket.service;
+-
+-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+-import com.baomidou.mybatisplus.core.metadata.IPage;
+-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+-import com.baomidou.mybatisplus.extension.service.IService;
+-import com.example.fleamarket.entity.History;
+-
+-public interface IHistoryService extends IService<History> {
+-    Boolean insert(int userId,int goodId);
+-    Boolean remove(int userId,int goodId);
+-    IPage<History> findByPage(Page<History> page, LambdaQueryWrapper<History> userLambdaQueryWrapper);
+-}
+Index: fleaMarket/src/main/java/com/example/fleamarket/dao/ICategoryDao.java
+===================================================================
+diff --git a/fleaMarket/src/main/java/com/example/fleamarket/dao/ICategoryDao.java b/fleaMarket/src/main/java/com/example/fleamarket/dao/ICategoryDao.java
+deleted file mode 100644
+--- a/fleaMarket/src/main/java/com/example/fleamarket/dao/ICategoryDao.java	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
++++ /dev/null	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
+@@ -1,24 +0,0 @@
+-package com.example.fleamarket.dao;
+-
+-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+-import com.example.fleamarket.entity.Category;
+-import com.example.fleamarket.entity.Posts;
+-import org.apache.ibatis.annotations.Result;
+-import org.apache.ibatis.annotations.Results;
+-import org.apache.ibatis.annotations.Select;
+-import org.springframework.stereotype.Repository;
+-
+-import java.util.List;
+-
+-@Repository
+-public interface ICategoryDao extends BaseMapper<Category> {
+-
+-    @Select("select * from post " +
+-            " inner join " +
+-            " post_category on post.post_id=post_category.post_id " +
+-            " where  post_category.category_id =#{categoryId} ")
+-    @Results({
+-            @Result(id = true, column = "post_id", property = "id"),
+-    })
+-    List<Posts> getPostsByCategoryId(int categoryId);
+-}
+Index: fleaMarket/src/main/java/com/example/fleamarket/controller/OrderController.java
+===================================================================
+diff --git a/fleaMarket/src/main/java/com/example/fleamarket/controller/OrderController.java b/fleaMarket/src/main/java/com/example/fleamarket/controller/OrderController.java
+deleted file mode 100644
+--- a/fleaMarket/src/main/java/com/example/fleamarket/controller/OrderController.java	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
++++ /dev/null	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
+@@ -1,68 +0,0 @@
+-package com.example.fleamarket.controller;
+-
+-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+-import com.example.fleamarket.entity.Order;
+-import com.example.fleamarket.response.ResultVo;
+-import com.example.fleamarket.service.IOrderService;
+-import io.swagger.annotations.ApiModelProperty;
+-import io.swagger.annotations.ApiOperation;
+-import io.swagger.annotations.ApiParam;
+-import lombok.extern.slf4j.Slf4j;
+-import org.springframework.beans.factory.annotation.Autowired;
+-import org.springframework.web.bind.annotation.CrossOrigin;
+-import org.springframework.web.bind.annotation.GetMapping;
+-import org.springframework.web.bind.annotation.RequestMapping;
+-import org.springframework.web.bind.annotation.RestController;
+-
+-@Slf4j
+-@RestController
+-@RequestMapping(value = "/order")
+-public class OrderController {
+-    @Autowired
+-    IOrderService iOrderService;
+-
+-    @ApiOperation("用户购买信息查询接口")
+-    @GetMapping("/buy")
+-    public ResultVo buy(@ApiParam("购买者id")int buyerId) {
+-        log.info("用户购买信息查询接口");
+-        return new ResultVo().setData(iOrderService.list(new LambdaQueryWrapper<Order>()
+-                .eq(Order::getBuyerId, buyerId))
+-        );
+-    }
+-
+-    @ApiOperation("用户出售信息查询接口")
+-    @GetMapping("/sold")
+-    public ResultVo sold(@ApiParam("订单id")int orderId) {
+-        log.info("用户出售信息查询接口");
+-        return new ResultVo().setData(iOrderService.list(new LambdaQueryWrapper<Order>()
+-                .eq(Order::getSolderId, orderId))
+-        );
+-    }
+-
+-    @ApiOperation("用户取消订单接口")
+-    @GetMapping("/cancel")
+-    public ResultVo cancel(@ApiParam("订单id")int orderId) {
+-        log.info("用户取消订单接口");
+-        return new ResultVo().setData(iOrderService.statusUpdate(orderId));
+-    }
+-
+-    @ApiOperation("用户修改订单接口")
+-    @GetMapping("/baseUpdate")
+-    public ResultVo baseUpdate(@ApiParam("购买者姓名")String buyerName, @ApiParam("电话")String phoneNumber,@ApiParam("订单id")int orderId) {
+-        log.info("用户修改订单接口");
+-        return new ResultVo().setData(iOrderService.baseUpdate(buyerName, phoneNumber,orderId));
+-    }
+-
+-    @ApiOperation("用户收货接口")
+-    @GetMapping("/update")
+-    public ResultVo statusUpdate(@ApiParam("订单id")int orderId) {
+-        log.info("用户收货接口");
+-        return new ResultVo().setData(iOrderService.statusUpdate(orderId));
+-    }
+-    @ApiOperation("增加商品接口")
+-    @GetMapping("/insert")
+-    public ResultVo insert(@ApiParam("商品id")int goodId,@ApiParam("出售人id")int solderId,@ApiParam("购买者id")int buyerId,@ApiParam("时间")String time,@ApiParam("购买者姓名")String buyerName,@ApiParam("电话号码")String phoneNumber) {
+-        return new ResultVo().setData(iOrderService.insert(goodId,solderId,buyerId,time,buyerName,phoneNumber));
+-    }
+-
+-}
+Index: fleaMarket/src/main/java/com/example/fleamarket/entity/Posts.java
+===================================================================
+diff --git a/fleaMarket/src/main/java/com/example/fleamarket/entity/Posts.java b/fleaMarket/src/main/java/com/example/fleamarket/entity/Posts.java
+deleted file mode 100644
+--- a/fleaMarket/src/main/java/com/example/fleamarket/entity/Posts.java	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
++++ /dev/null	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
+@@ -1,33 +0,0 @@
+-package com.example.fleamarket.entity;
+-import com.baomidou.mybatisplus.annotation.TableField;
+-import com.baomidou.mybatisplus.annotation.TableName;
+-import io.swagger.annotations.ApiModel;
+-import io.swagger.annotations.ApiModelProperty;
+-import lombok.AllArgsConstructor;
+-import lombok.Data;
+-import lombok.NoArgsConstructor;
+-import java.util.List;
+-
+-
+-@TableName("posts")
+-@Data
+-@NoArgsConstructor
+-@AllArgsConstructor
+-@ApiModel("帖子")
+-public class Posts{
+-    @ApiModelProperty("帖子id")
+-    int postId;
+-    @ApiModelProperty("寻物用户的id")
+-    int buyerId;
+-    @ApiModelProperty("求物描述")
+-    String description;
+-    @ApiModelProperty("话题分类")
+-    @TableField(exist = false)
+-    List<Category> categoryList;
+-    @ApiModelProperty("回复列表")
+-    @TableField(exist = false)
+-    List<Reply>replyList;
+-
+-
+-
+-}
+Index: fleaMarket/src/main/java/com/example/fleamarket/controller/FollowController.java
+===================================================================
+diff --git a/fleaMarket/src/main/java/com/example/fleamarket/controller/FollowController.java b/fleaMarket/src/main/java/com/example/fleamarket/controller/FollowController.java
+deleted file mode 100644
+--- a/fleaMarket/src/main/java/com/example/fleamarket/controller/FollowController.java	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
++++ /dev/null	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
+@@ -1,43 +0,0 @@
+-package com.example.fleamarket.controller;
+-
+-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+-import com.example.fleamarket.entity.Comment;
+-import com.example.fleamarket.entity.Follow;
+-import com.example.fleamarket.response.ResultVo;
+-import com.example.fleamarket.service.IFollowService;
+-import io.swagger.annotations.ApiOperation;
+-import io.swagger.annotations.ApiParam;
+-import lombok.extern.slf4j.Slf4j;
+-import org.springframework.beans.factory.annotation.Autowired;
+-import org.springframework.web.bind.annotation.CrossOrigin;
+-import org.springframework.web.bind.annotation.GetMapping;
+-import org.springframework.web.bind.annotation.RequestMapping;
+-import org.springframework.web.bind.annotation.RestController;
+-
+-@Slf4j
+-@RestController
+-@RequestMapping(value ="/follow")
+-public class FollowController {
+-    @Autowired
+-    IFollowService iFollowService;
+-    @ApiOperation("查询所有关注")
+-    @GetMapping("/getAllFollow")
+-    public ResultVo all(int userId, @ApiParam("当前页")int current, @ApiParam("大小")int size){
+-        Page<Follow> page = new Page<>(current , size );
+-        LambdaQueryWrapper<Follow> userLambdaQueryWrapper = Wrappers.lambdaQuery();
+-        userLambdaQueryWrapper.eq(Follow::getFollowerId,userId);
+-        return new ResultVo().setData(iFollowService.findByPage(page,userLambdaQueryWrapper));
+-    }
+-    @ApiOperation("增加关注")
+-    @GetMapping("/insert")
+-    public ResultVo insert(@ApiParam("关注者id")int followerId,@ApiParam("被关注者id")int followedId){
+-        return new ResultVo().setData(iFollowService.insert(followerId, followedId));
+-    }
+-    @ApiOperation("删除关注")
+-    @GetMapping("/remove")
+-    public ResultVo remove(@ApiParam("关注者id")int followerId,@ApiParam("被关注者id")int followedId){
+-        return new ResultVo().setData(iFollowService.remove(followerId,followedId));
+-    }
+-}
+Index: fleaMarket/src/main/java/com/example/fleamarket/entity/GoodReport.java
+===================================================================
+diff --git a/fleaMarket/src/main/java/com/example/fleamarket/entity/GoodReport.java b/fleaMarket/src/main/java/com/example/fleamarket/entity/GoodReport.java
+deleted file mode 100644
+--- a/fleaMarket/src/main/java/com/example/fleamarket/entity/GoodReport.java	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
++++ /dev/null	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
+@@ -1,22 +0,0 @@
+-package com.example.fleamarket.entity;
+-
+-import com.baomidou.mybatisplus.annotation.TableName;
+-import io.swagger.annotations.ApiModel;
+-import io.swagger.annotations.ApiModelProperty;
+-import lombok.AllArgsConstructor;
+-import lombok.Data;
+-import lombok.NoArgsConstructor;
+-@TableName("goodReport")
+-@Data
+-@NoArgsConstructor
+-@AllArgsConstructor
+-public class GoodReport {
+-    @ApiModelProperty("审核记录id")
+-    int reportId;
+-    @ApiModelProperty("商品的id")
+-    int goodId;
+-    @ApiModelProperty("举报理由")
+-    String context;
+-    @ApiModelProperty("审核情况")
+-    String status;
+-}
+Index: fleaMarket/src/main/java/com/example/fleamarket/service/IAuditService.java
+===================================================================
+diff --git a/fleaMarket/src/main/java/com/example/fleamarket/service/IAuditService.java b/fleaMarket/src/main/java/com/example/fleamarket/service/IAuditService.java
+deleted file mode 100644
+--- a/fleaMarket/src/main/java/com/example/fleamarket/service/IAuditService.java	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
++++ /dev/null	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
+@@ -1,13 +0,0 @@
+-package com.example.fleamarket.service;
+-
+-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+-import com.baomidou.mybatisplus.core.metadata.IPage;
+-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+-import com.baomidou.mybatisplus.extension.service.IService;
+-import com.example.fleamarket.entity.Announcement;
+-import com.example.fleamarket.entity.Audit;
+-
+-public interface IAuditService extends IService<Audit> {
+-    Boolean insert(Boolean status,int goodId,int adminId);
+-    IPage<Audit> findByPage(Page<Audit> page, LambdaQueryWrapper<Audit> userLambdaQueryWrapper);
+-}
+Index: fleaMarket/src/main/java/com/example/fleamarket/entity/Goods.java
+===================================================================
+diff --git a/fleaMarket/src/main/java/com/example/fleamarket/entity/Goods.java b/fleaMarket/src/main/java/com/example/fleamarket/entity/Goods.java
+deleted file mode 100644
+--- a/fleaMarket/src/main/java/com/example/fleamarket/entity/Goods.java	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
++++ /dev/null	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
+@@ -1,51 +0,0 @@
+-package com.example.fleamarket.entity;
+-
+-import com.baomidou.mybatisplus.annotation.IdType;
+-import com.baomidou.mybatisplus.annotation.TableId;
+-import com.baomidou.mybatisplus.annotation.TableName;
+-import io.swagger.annotations.ApiModel;
+-import io.swagger.annotations.ApiModelProperty;
+-import lombok.AllArgsConstructor;
+-import lombok.Data;
+-import lombok.EqualsAndHashCode;
+-import lombok.NoArgsConstructor;
+-
+-
+-@TableName("goods")
+-@Data
+-@NoArgsConstructor
+-@AllArgsConstructor
+-@ApiModel("商品类")
+-public class Goods{
+-	@TableId(type = IdType.AUTO)
+-	@ApiModelProperty("商品id")
+-	int goodId;
+-	@ApiModelProperty("用户的id")
+-	int  userId;
+-	@ApiModelProperty("商品价格")
+-	double price;
+-	@ApiModelProperty("分类的id")
+-	int categoryId;
+-	@ApiModelProperty("名称")
+-	String goodName;
+-	@ApiModelProperty("简介")
+-	String summary;
+-	@ApiModelProperty("审核情况")
+-	String approved;
+-	@ApiModelProperty("详情介绍")
+-	String detail;
+-	@ApiModelProperty("图片")
+-	String image;
+-	@ApiModelProperty("出售情况")
+-	Boolean isSold;
+-	@ApiModelProperty("点击数")
+-	int clickAmount;
+-	@ApiModelProperty("上架时间")
+-	String time;
+-	@ApiModelProperty("商品的类别")
+-	String goodSort;
+-	@ApiModelProperty("乘数，用于推荐排序，默认值为10000")
+-	int multiplier;
+-	@ApiModelProperty("加数，用于推荐排序，默认值为0。排序值为：推荐数*乘数+加数")
+-	int addend;
+-}
+Index: fleaMarket/src/main/java/com/example/fleamarket/shrio/UserRealm.java
+===================================================================
+diff --git a/fleaMarket/src/main/java/com/example/fleamarket/shrio/UserRealm.java b/fleaMarket/src/main/java/com/example/fleamarket/shrio/UserRealm.java
+deleted file mode 100644
+--- a/fleaMarket/src/main/java/com/example/fleamarket/shrio/UserRealm.java	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
++++ /dev/null	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
+@@ -1,50 +0,0 @@
+-package com.example.fleamarket.shrio;
+-
+-import com.example.fleamarket.entity.User;
+-import com.example.fleamarket.service.impl.UserService;
+-import org.apache.shiro.SecurityUtils;
+-import org.apache.shiro.authc.*;
+-import org.apache.shiro.authz.AuthorizationInfo;
+-import org.apache.shiro.authz.SimpleAuthorizationInfo;
+-import org.apache.shiro.realm.AuthorizingRealm;
+-import org.apache.shiro.subject.PrincipalCollection;
+-import org.apache.shiro.subject.Subject;
+-import org.springframework.beans.factory.annotation.Autowired;
+-
+-public class UserRealm extends AuthorizingRealm {
+-    @Autowired
+-    private UserService userService;
+-
+-    /**
+-     * 执行授权逻辑
+-     * 只要访问加上授权的资源都会调用改方法
+-     * */
+-    @Override
+-    protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
+-        //给资源进行授权
+-        SimpleAuthorizationInfo info=new SimpleAuthorizationInfo();
+-        //info.addStringPermission("user:add");
+-        //到数据库查询当前用户的授权的字符串
+-        Subject subject= SecurityUtils.getSubject();
+-        User user =(User) subject.getPrincipal();
+-        info.addRole(user.getRole());
+-        System.out.println("执行认证");
+-        System.out.println(user.getRole());
+-        return info;
+-    }
+-    /**
+-     * 执行认证逻辑
+-     * 只要使用subject.login(token) 就会调用该方法
+-     * */
+-    @Override
+-    protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
+-        //1、判断用户名
+-        UsernamePasswordToken token=(UsernamePasswordToken) authenticationToken;
+-        //如果传入的是用户名
+-        User user = userService.queryById(token.getUsername());
+-        if(user==null)
+-            return null;
+-        return new SimpleAuthenticationInfo(user,user.getPassword(),"");
+-    }
+-}
+-
+Index: fleaMarket/src/main/java/com/example/fleamarket/entity/Question.java
+===================================================================
+diff --git a/fleaMarket/src/main/java/com/example/fleamarket/entity/Question.java b/fleaMarket/src/main/java/com/example/fleamarket/entity/Question.java
+deleted file mode 100644
+--- a/fleaMarket/src/main/java/com/example/fleamarket/entity/Question.java	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
++++ /dev/null	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
+@@ -1,25 +0,0 @@
+-package com.example.fleamarket.entity;
+-
+-import com.baomidou.mybatisplus.annotation.IdType;
+-import com.baomidou.mybatisplus.annotation.TableId;
+-import com.baomidou.mybatisplus.annotation.TableName;
+-import io.swagger.annotations.ApiModel;
+-import io.swagger.annotations.ApiModelProperty;
+-import lombok.AllArgsConstructor;
+-import lombok.Data;
+-import lombok.NoArgsConstructor;
+-
+-@TableName("question")
+-@Data
+-@NoArgsConstructor
+-@AllArgsConstructor
+-@ApiModel("帖子")
+-public class Question {
+-    @TableId(type = IdType.AUTO)
+-    @ApiModelProperty("问题id")
+-    int questionId;
+-    @ApiModelProperty("问题")
+-    String question;
+-    @ApiModelProperty("回答")
+-    String answer;
+-}
+Index: fleaMarket/.mvn/wrapper/maven-wrapper.properties
+===================================================================
+diff --git a/fleaMarket/.mvn/wrapper/maven-wrapper.properties b/fleaMarket/.mvn/wrapper/maven-wrapper.properties
+deleted file mode 100644
+--- a/fleaMarket/.mvn/wrapper/maven-wrapper.properties	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
++++ /dev/null	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
+@@ -1,2 +0,0 @@
+-distributionUrl=https://repo.maven.apache.org/maven2/org/apache/maven/apache-maven/3.8.4/apache-maven-3.8.4-bin.zip
+-wrapperUrl=https://repo.maven.apache.org/maven2/org/apache/maven/wrapper/maven-wrapper/3.1.0/maven-wrapper-3.1.0.jar
+Index: fleaMarket/src/main/java/com/example/fleamarket/service/impl/GoodReportService.java
+===================================================================
+diff --git a/fleaMarket/src/main/java/com/example/fleamarket/service/impl/GoodReportService.java b/fleaMarket/src/main/java/com/example/fleamarket/service/impl/GoodReportService.java
+deleted file mode 100644
+--- a/fleaMarket/src/main/java/com/example/fleamarket/service/impl/GoodReportService.java	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
++++ /dev/null	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
+@@ -1,34 +0,0 @@
+-package com.example.fleamarket.service.impl;
+-
+-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+-import com.baomidou.mybatisplus.core.metadata.IPage;
+-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+-import com.example.fleamarket.dao.IGoodReportDao;
+-import com.example.fleamarket.entity.GoodReport;
+-import com.example.fleamarket.service.IGoodReportService;
+-import org.springframework.stereotype.Service;
+-
+-@Service
+-public class GoodReportService extends ServiceImpl<IGoodReportDao, GoodReport> implements IGoodReportService {
+-    @Override
+-    public Boolean insert(String context,int goodId){
+-        GoodReport goodReport = new GoodReport();
+-        goodReport.setGoodId(goodId);
+-        goodReport.setContext(context);
+-        goodReport.setStatus("未审核");
+-        return save(goodReport);
+-    }
+-    @Override
+-    public IPage<GoodReport> findByPage(Page<GoodReport> page, LambdaQueryWrapper<GoodReport> userLambdaQueryWrapper){
+-        return  baseMapper.selectPage(page,userLambdaQueryWrapper);
+-    }
+-    @Override
+-    public Boolean update(String status, int reportId){
+-        GoodReport goodReport = baseMapper.selectById(reportId);
+-        goodReport.setReportId(reportId);
+-        goodReport.setStatus(status);
+-        return saveOrUpdate(goodReport);
+-    }
+-
+-}
+Index: fleaMarket/src/main/java/com/example/fleamarket/service/ICategoryService.java
+===================================================================
+diff --git a/fleaMarket/src/main/java/com/example/fleamarket/service/ICategoryService.java b/fleaMarket/src/main/java/com/example/fleamarket/service/ICategoryService.java
+deleted file mode 100644
+--- a/fleaMarket/src/main/java/com/example/fleamarket/service/ICategoryService.java	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
++++ /dev/null	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
+@@ -1,18 +0,0 @@
+-package com.example.fleamarket.service;
+-
+-
+-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+-import com.baomidou.mybatisplus.core.metadata.IPage;
+-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+-import com.baomidou.mybatisplus.extension.service.IService;
+-import com.example.fleamarket.entity.Category;
+-import com.example.fleamarket.entity.Posts;
+-
+-import java.util.List;
+-
+-public interface ICategoryService extends IService<Category> {
+-    Boolean insert(String name,String describe);
+-    Boolean remove(int id);
+-    IPage<Category> findByPage(Page<Category> page, LambdaQueryWrapper<Category> userLambdaQueryWrapper);
+-    List<Posts> findPostsByCategory(int categoryId);
+-}
+Index: fleaMarket/src/main/java/com/example/fleamarket/service/impl/QuestionService.java
+===================================================================
+diff --git a/fleaMarket/src/main/java/com/example/fleamarket/service/impl/QuestionService.java b/fleaMarket/src/main/java/com/example/fleamarket/service/impl/QuestionService.java
+deleted file mode 100644
+--- a/fleaMarket/src/main/java/com/example/fleamarket/service/impl/QuestionService.java	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
++++ /dev/null	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
+@@ -1,35 +0,0 @@
+-package com.example.fleamarket.service.impl;
+-
+-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+-import com.baomidou.mybatisplus.core.metadata.IPage;
+-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+-import com.example.fleamarket.dao.IQuestionDao;
+-import com.example.fleamarket.entity.Question;
+-import com.example.fleamarket.service.IQuestionService;
+-import org.springframework.stereotype.Service;
+-
+-@Service
+-public class QuestionService extends ServiceImpl<IQuestionDao, Question> implements IQuestionService {
+-    public Boolean insert(String question,String answer){
+-        Question question1 = new Question();
+-        question1.setQuestion(question);
+-        question1.setAnswer(answer);
+-        return save(question1);
+-    }
+-    public Boolean remove(int questionId) {
+-        LambdaQueryWrapper<Question> lwq = Wrappers.lambdaQuery();
+-        lwq.eq(Question::getQuestionId,questionId);
+-        return remove(lwq);
+-    }
+-    public IPage<Question> findByPage(Page<Question> page, LambdaQueryWrapper<Question> userLambdaQueryWrapper){
+-        return  baseMapper.selectPage(page,userLambdaQueryWrapper);
+-    }
+-    public Boolean update(int questionId,String question,String answer){
+-        Question question1 = baseMapper.selectById(questionId);
+-        question1.setQuestion(question);
+-        question1.setAnswer(answer);
+-        return saveOrUpdate(question1);
+-    }
+-}
+Index: fleaMarket/src/main/java/com/example/fleamarket/entity/PostsCollection.java
+===================================================================
+diff --git a/fleaMarket/src/main/java/com/example/fleamarket/entity/PostsCollection.java b/fleaMarket/src/main/java/com/example/fleamarket/entity/PostsCollection.java
+deleted file mode 100644
+--- a/fleaMarket/src/main/java/com/example/fleamarket/entity/PostsCollection.java	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
++++ /dev/null	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
+@@ -1,24 +0,0 @@
+-package com.example.fleamarket.entity;
+-
+-import com.baomidou.mybatisplus.annotation.IdType;
+-import com.baomidou.mybatisplus.annotation.TableId;
+-import com.baomidou.mybatisplus.annotation.TableName;
+-import io.swagger.annotations.ApiModel;
+-import io.swagger.annotations.ApiModelProperty;
+-import lombok.AllArgsConstructor;
+-import lombok.Data;
+-import lombok.NoArgsConstructor;
+-
+-
+-@TableName("Posts_collection")
+-@Data
+-@NoArgsConstructor
+-@AllArgsConstructor
+-@ApiModel(description = "帖子收藏")
+-public class PostsCollection {
+-	@TableId(type = IdType.AUTO)
+-	@ApiModelProperty("用户的id")
+-	Integer userId;
+-	@ApiModelProperty("帖子的id")
+-	Integer postId;
+-}
+Index: fleaMarket/src/main/java/com/example/fleamarket/entity/Announcement.java
+===================================================================
+diff --git a/fleaMarket/src/main/java/com/example/fleamarket/entity/Announcement.java b/fleaMarket/src/main/java/com/example/fleamarket/entity/Announcement.java
+deleted file mode 100644
+--- a/fleaMarket/src/main/java/com/example/fleamarket/entity/Announcement.java	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
++++ /dev/null	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
+@@ -1,24 +0,0 @@
+-package com.example.fleamarket.entity;
+-
+-import com.baomidou.mybatisplus.annotation.IdType;
+-import com.baomidou.mybatisplus.annotation.TableId;
+-import com.baomidou.mybatisplus.annotation.TableName;
+-import io.swagger.annotations.ApiModelProperty;
+-import lombok.AllArgsConstructor;
+-import lombok.Data;
+-import lombok.EqualsAndHashCode;
+-import lombok.NoArgsConstructor;
+-
+-
+-@TableName("announcement")
+-@Data
+-@NoArgsConstructor
+-@AllArgsConstructor
+-public class Announcement{
+-    @TableId(type = IdType.AUTO)
+-    @ApiModelProperty("公告id")
+-    int announcementId;
+-    @ApiModelProperty("公告内容")
+-    String context;
+-
+-}
+Index: fleaMarket/market.sql
+===================================================================
+diff --git a/fleaMarket/market.sql b/fleaMarket/market.sql
+deleted file mode 100644
+--- a/fleaMarket/market.sql	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
++++ /dev/null	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
+@@ -1,201 +0,0 @@
+-/*
+-SQLyog Ultimate v10.00 Beta1
+-MySQL - 8.0.27 : Database - market
+-*********************************************************************
+-*/
+-
+-
+-/*!40101 SET NAMES utf8 */;
+-
+-/*!40101 SET SQL_MODE=''*/;
+-
+-/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+-/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+-/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+-/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+-CREATE DATABASE /*!32312 IF NOT EXISTS*/`market` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
+-
+-USE `market`;
+-
+-/*Table structure for table `announcement` */
+-
+-DROP TABLE IF EXISTS `announcement`;
+-
+-CREATE TABLE `announcement` (
+-  `announcement_id` int NOT NULL,
+-  `context` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+-  PRIMARY KEY (`announcement_id`)
+-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+-
+-/*Table structure for table `audit` */
+-
+-DROP TABLE IF EXISTS `audit`;
+-
+-CREATE TABLE `audit` (
+-  `audit_id` int NOT NULL,
+-  `good_id` int DEFAULT NULL,
+-  `adminId` int DEFAULT NULL,
+-  `status` tinyint(1) DEFAULT NULL,
+-  PRIMARY KEY (`audit_id`)
+-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+-
+-/*Table structure for table `catgory` */
+-
+-DROP TABLE IF EXISTS `catgory`;
+-
+-CREATE TABLE `catgory` (
+-  `id` int NOT NULL,
+-  `name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+-  `rank` int DEFAULT NULL,
+-  `parent_id` int DEFAULT NULL,
+-  PRIMARY KEY (`id`)
+-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+-
+-/*Table structure for table `goodsCollection` */
+-
+-DROP TABLE IF EXISTS `goodsCollection`;
+-
+-CREATE TABLE `goodsCollection` (
+-  `good_id` int NOT NULL,
+-  `user_id` int NOT NULL,
+-  PRIMARY KEY (`good_id`,`user_id`),
+-  KEY `user_id` (`user_id`),
+-  CONSTRAINT `collection_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`)
+-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+-
+-/*Table structure for table `comment` */
+-
+-DROP TABLE IF EXISTS `comment`;
+-
+-CREATE TABLE `comment` (
+-  `comment_id` int NOT NULL AUTO_INCREMENT,
+-  `insert_date` datetime(6) DEFAULT NULL,
+-  `insert_user_username` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+-  `update_date` datetime(6) DEFAULT NULL,
+-  `update_user_username` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+-  `be_commented_user_id` int DEFAULT NULL,
+-  `content` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+-  `comment_user_id` int DEFAULT NULL,
+-  PRIMARY KEY (`comment_id`),
+-  KEY `user_id` (`comment_user_id`),
+-  KEY `be_commented_user_id` (`be_commented_user_id`),
+-  CONSTRAINT `comment_ibfk_1` FOREIGN KEY (`comment_user_id`) REFERENCES `user` (`user_id`),
+-  CONSTRAINT `comment_ibfk_2` FOREIGN KEY (`be_commented_user_id`) REFERENCES `user` (`user_id`)
+-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+-
+-/*Table structure for table `follow` */
+-
+-DROP TABLE IF EXISTS `follow`;
+-
+-CREATE TABLE `follow` (
+-  `id` int NOT NULL AUTO_INCREMENT,
+-  `insert_date` datetime(6) DEFAULT NULL,
+-  `insert_user_username` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+-  `update_date` datetime(6) DEFAULT NULL,
+-  `update_user_username` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+-  `follower_id` int DEFAULT NULL,
+-  `following_id` int DEFAULT NULL,
+-  PRIMARY KEY (`id`),
+-  KEY `follower_id` (`follower_id`),
+-  KEY `following_id` (`following_id`),
+-  CONSTRAINT `follow_ibfk_1` FOREIGN KEY (`follower_id`) REFERENCES `user` (`user_id`),
+-  CONSTRAINT `follow_ibfk_2` FOREIGN KEY (`following_id`) REFERENCES `user` (`user_id`)
+-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+-
+-/*Table structure for table `goods` */
+-
+-DROP TABLE IF EXISTS `goods`;
+-
+-CREATE TABLE `goods` (
+-  `good_id` int NOT NULL AUTO_INCREMENT,
+-  `insert_date` datetime(6) DEFAULT NULL,
+-  `insert_user_username` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+-  `update_date` datetime(6) DEFAULT NULL,
+-  `update_user_username` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+-  `addend` int DEFAULT NULL,
+-  `approved` bit(1) DEFAULT NULL,
+-  `category_id` int DEFAULT NULL,
+-  `click_amount` int DEFAULT NULL,
+-  `detail` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+-  `image` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+-  `is_sold` bit(1) DEFAULT NULL,
+-  `multiplier` int DEFAULT NULL,
+-  `name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+-  `price` double DEFAULT NULL,
+-  `summary` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+-  `time` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+-  `user_id` int DEFAULT NULL,
+-  PRIMARY KEY (`good_id`),
+-  CONSTRAINT `goods_ibfk_1` FOREIGN KEY (`good_id`) REFERENCES `goodsCollection` (`good_id`)
+-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+-
+-/*Table structure for table `history` */
+-
+-DROP TABLE IF EXISTS `history`;
+-
+-CREATE TABLE `history` (
+-  `id` int NOT NULL AUTO_INCREMENT,
+-  `insert_date` datetime(6) DEFAULT NULL,
+-  `insert_user_username` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+-  `update_date` datetime(6) DEFAULT NULL,
+-  `update_user_username` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+-  `goods_id` int DEFAULT NULL,
+-  `user_id` int DEFAULT NULL,
+-  PRIMARY KEY (`id`),
+-  KEY `user_id` (`user_id`),
+-  KEY `goods_id` (`goods_id`),
+-  CONSTRAINT `history_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`),
+-  CONSTRAINT `history_ibfk_2` FOREIGN KEY (`goods_id`) REFERENCES `goods` (`good_id`)
+-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+-
+-/*Table structure for table `orders` */
+-
+-DROP TABLE IF EXISTS `orders`;
+-
+-CREATE TABLE `orders` (
+-  `order_id` int NOT NULL AUTO_INCREMENT,
+-  `insert_date` datetime(6) DEFAULT NULL,
+-  `insert_user_username` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+-  `update_date` datetime(6) DEFAULT NULL,
+-  `update_user_username` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+-  `buyer_id` int DEFAULT NULL,
+-  `buyer_name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+-  `phone_number` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+-  `solder_id` int DEFAULT NULL,
+-  `time` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+-  `good_id` int DEFAULT NULL,
+-  `order_status` tinyint(1) DEFAULT NULL,
+-  PRIMARY KEY (`order_id`),
+-  KEY `buyer_id` (`buyer_id`),
+-  KEY `solder_id` (`solder_id`),
+-  CONSTRAINT `orders_ibfk_1` FOREIGN KEY (`buyer_id`) REFERENCES `user` (`user_id`),
+-  CONSTRAINT `orders_ibfk_2` FOREIGN KEY (`solder_id`) REFERENCES `user` (`user_id`)
+-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+-
+-/*Table structure for table `user` */
+-
+-DROP TABLE IF EXISTS `user`;
+-
+-CREATE TABLE `user` (
+-  `user_id` int NOT NULL AUTO_INCREMENT,
+-  `insert_date` datetime(6) DEFAULT NULL,
+-  `insert_user_username` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+-  `update_date` datetime(6) DEFAULT NULL,
+-  `update_user_username` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+-  `image` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+-  `nickname` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+-  `password` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+-  `role` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+-  `salt` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+-  `unqualified_goods` int DEFAULT NULL,
+-  `username` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+-  `qq` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+-  `age` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+-  `phone` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+-  PRIMARY KEY (`user_id`)
+-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+-
+-/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+-/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+-/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+-/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+Index: fleaMarket/src/main/java/com/example/fleamarket/entity/Category.java
+===================================================================
+diff --git a/fleaMarket/src/main/java/com/example/fleamarket/entity/Category.java b/fleaMarket/src/main/java/com/example/fleamarket/entity/Category.java
+deleted file mode 100644
+--- a/fleaMarket/src/main/java/com/example/fleamarket/entity/Category.java	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
++++ /dev/null	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
+@@ -1,31 +0,0 @@
+-package com.example.fleamarket.entity;
+-
+-import com.baomidou.mybatisplus.annotation.IdType;
+-import com.baomidou.mybatisplus.annotation.TableId;
+-import com.baomidou.mybatisplus.annotation.TableName;
+-import io.swagger.annotations.ApiModel;
+-import io.swagger.annotations.ApiModelProperty;
+-import lombok.AllArgsConstructor;
+-import lombok.Data;
+-import lombok.EqualsAndHashCode;
+-import lombok.NoArgsConstructor;
+-
+-
+-@TableName("category")
+-@Data
+-@NoArgsConstructor
+-@AllArgsConstructor
+-@ApiModel(description = "商品分类")
+-public class Category{
+-	@TableId(type = IdType.AUTO)
+-	@ApiModelProperty("主键，自增")
+-	int CategoryId;
+-	@ApiModelProperty("名称")
+-	String goodSort;
+-	@ApiModelProperty("描述")
+-	String goodDescribe;
+-	/*@ApiModelProperty("分类级别，1是一级分类，2是二级分类")
+-	Integer rank;
+-	@ApiModelProperty("父分类的id，若无父分类，则为0")
+-	Integer parentId;*/
+-}
+Index: fleaMarket/src/main/java/com/example/fleamarket/controller/CategoryController.java
+===================================================================
+diff --git a/fleaMarket/src/main/java/com/example/fleamarket/controller/CategoryController.java b/fleaMarket/src/main/java/com/example/fleamarket/controller/CategoryController.java
+deleted file mode 100644
+--- a/fleaMarket/src/main/java/com/example/fleamarket/controller/CategoryController.java	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
++++ /dev/null	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
+@@ -1,42 +0,0 @@
+-package com.example.fleamarket.controller;
+-
+-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+-import com.example.fleamarket.entity.Category;
+-import com.example.fleamarket.response.ResultVo;
+-import com.example.fleamarket.service.ICategoryService;
+-import io.swagger.annotations.ApiModelProperty;
+-import io.swagger.annotations.ApiOperation;
+-import io.swagger.annotations.ApiParam;
+-import lombok.extern.slf4j.Slf4j;
+-import org.apache.shiro.authz.annotation.RequiresRoles;
+-import org.springframework.beans.factory.annotation.Autowired;
+-import org.springframework.web.bind.annotation.CrossOrigin;
+-import org.springframework.web.bind.annotation.GetMapping;
+-import org.springframework.web.bind.annotation.RequestMapping;
+-import org.springframework.web.bind.annotation.RestController;
+-
+-@Slf4j
+-@RestController
+-@RequestMapping(value ="/catgory")
+-public class CategoryController {
+-    @Autowired
+-    ICategoryService iCategoryService;
+-    @ApiOperation("查询所有分类")
+-    @GetMapping("/getAllFollow")
+-    public ResultVo all(@ApiParam("当前页")int current,@ApiParam("大小") int size){
+-        Page<Category> page = new Page<>(current,size);
+-        return new ResultVo().setData(iCategoryService.findByPage(page,null));
+-    }
+-    @RequiresRoles("admin")
+-    @ApiOperation("增加分类")
+-    @GetMapping("/insert")
+-    public ResultVo insert(@ApiParam("分类名")String goodSort,@ApiParam("描述")String goodDescribe){
+-        return new ResultVo().setData(iCategoryService.insert(goodSort,goodDescribe));
+-    }
+-    @RequiresRoles("admin")
+-    @ApiOperation("删除分类")
+-    @GetMapping("/remove")
+-    public ResultVo remove(@ApiParam("分类id")int id){
+-        return new ResultVo().setData(iCategoryService.remove(id));
+-    }
+-}
+Index: fleaMarket/src/main/java/com/example/fleamarket/service/impl/GoodsService.java
+===================================================================
+diff --git a/fleaMarket/src/main/java/com/example/fleamarket/service/impl/GoodsService.java b/fleaMarket/src/main/java/com/example/fleamarket/service/impl/GoodsService.java
+deleted file mode 100644
+--- a/fleaMarket/src/main/java/com/example/fleamarket/service/impl/GoodsService.java	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
++++ /dev/null	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
+@@ -1,87 +0,0 @@
+-package com.example.fleamarket.service.impl;
+-
+-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+-import com.baomidou.mybatisplus.core.metadata.IPage;
+-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+-import com.example.fleamarket.dao.IGoodsDao;
+-import com.example.fleamarket.entity.Comment;
+-import com.example.fleamarket.entity.GoodReport;
+-import com.example.fleamarket.entity.Goods;
+-import com.example.fleamarket.service.IGoodService;
+-import com.example.fleamarket.utils.AliyunOSSUtil;
+-import org.springframework.beans.factory.annotation.Autowired;
+-import org.springframework.stereotype.Service;
+-import org.springframework.web.multipart.MultipartFile;
+-
+-@Service
+-public class GoodsService extends ServiceImpl<IGoodsDao, Goods> implements IGoodService {
+-    @Autowired
+-    AliyunOSSUtil aliyunOSSUtil;
+-    @Override
+-    public Goods queryById(int goodId) {
+-        return getOne(new LambdaQueryWrapper<Goods>()
+-                .eq(Goods::getGoodId,goodId)
+-                .eq(Goods::getApproved, "已审核")
+-        );
+-    }
+-
+-    @Override
+-    public Boolean update(String goodName, String summary, String detail,double price,String goodSort,int goodId) {
+-        Goods goods = baseMapper.selectById(goodId);
+-        goods.setGoodId(goodId);
+-        goods.setGoodName(goodName);
+-        goods.setDetail(summary);
+-        goods.setDetail(detail);
+-        goods.setPrice(price);
+-        goods.setGoodSort(goodSort);
+-        return saveOrUpdate(goods);
+-    }
+-    @Override
+-    public Boolean updatePhoto(MultipartFile file,int goodId) {
+-        String url = aliyunOSSUtil.upload(file);
+-        Goods goods = baseMapper.selectById(goodId);
+-        goods.setImage(url);
+-        goods.setGoodId(goodId);
+-        goods.setUserId(goods.getUserId());
+-        return saveOrUpdate(goods);
+-    }
+-    @Override
+-    public Boolean approved(String approved,int goodId) {
+-        Goods goods = baseMapper.selectById(goodId);
+-        goods.setApproved(approved);
+-        goods.setGoodId(goodId);
+-        return saveOrUpdate(goods);
+-    }
+-    @Override
+-    public Boolean remove(int goodId) {
+-        LambdaQueryWrapper<Goods> lwq = Wrappers.lambdaQuery();
+-        lwq.eq(Goods::getGoodId,goodId);
+-        return remove(lwq);
+-    }
+-    @Override
+-    public int insert(String goodName,String summary,String detail,double price,String goodSort,int userId){
+-        Goods goods = new Goods();
+-        goods.setGoodName(goodName);
+-        goods.setDetail(summary);
+-        goods.setDetail(detail);
+-        goods.setPrice(price);
+-        goods.setGoodSort(goodSort);
+-        goods.setUserId(userId);
+-        goods.setApproved("未审核");
+-        save(goods);
+-        return goods.getGoodId();
+-    }
+-    @Override
+-    public IPage<Goods> findByPage(Page<Goods> page, LambdaQueryWrapper<Goods> userLambdaQueryWrapper){
+-        return  baseMapper.selectPage(page,userLambdaQueryWrapper);
+-    }
+-    @Override
+-    public Boolean isSoldUpdate(int goodId) {
+-        Goods goods = baseMapper.selectById(goodId);
+-        goods.setIsSold(true);
+-        return saveOrUpdate(goods);
+-    }
+-
+-}
+Index: fleaMarket/src/main/java/com/example/fleamarket/dao/IPostsDao.java
+===================================================================
+diff --git a/fleaMarket/src/main/java/com/example/fleamarket/dao/IPostsDao.java b/fleaMarket/src/main/java/com/example/fleamarket/dao/IPostsDao.java
+deleted file mode 100644
+--- a/fleaMarket/src/main/java/com/example/fleamarket/dao/IPostsDao.java	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
++++ /dev/null	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
+@@ -1,32 +0,0 @@
+-package com.example.fleamarket.dao;
+-
+-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+-import com.example.fleamarket.entity.Category;
+-import com.example.fleamarket.entity.Posts;
+-import org.apache.ibatis.annotations.Insert;
+-import org.apache.ibatis.annotations.Result;
+-import org.apache.ibatis.annotations.Results;
+-import org.apache.ibatis.annotations.Select;
+-import org.springframework.stereotype.Repository;
+-
+-import java.util.List;
+-
+-@Repository
+-public interface IPostsDao extends BaseMapper<Posts> {
+-    @Select("select * from category " +
+-            " inner join " +
+-            " post_category on category.id=post_category.category_id " +
+-            " where  post_category.post_id =#{PostId} ")
+-    @Results({
+-            @Result(id = true, column = "id", property = "CategoryId"),
+-            @Result(column = "name", property = "goodSort"),
+-    })
+-    List<Category> getCategoryByPostId(int PostId);
+-
+-
+-    @Insert("insert into post_category(id,post_id,category_id) values(null,#{PostId},#{category_id})")
+-    boolean addCategory(int PostId,int category_id);
+-
+-}
+-
+-
+Index: fleaMarket/src/main/java/com/example/fleamarket/controller/PostsCollectionController.java
+===================================================================
+diff --git a/fleaMarket/src/main/java/com/example/fleamarket/controller/PostsCollectionController.java b/fleaMarket/src/main/java/com/example/fleamarket/controller/PostsCollectionController.java
+deleted file mode 100644
+--- a/fleaMarket/src/main/java/com/example/fleamarket/controller/PostsCollectionController.java	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
++++ /dev/null	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
+@@ -1,44 +0,0 @@
+-package com.example.fleamarket.controller;
+-
+-
+-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+-import com.example.fleamarket.entity.GoodsCollection;
+-import com.example.fleamarket.response.ResultVo;
+-import com.example.fleamarket.service.IGoodsCollectionService;
+-import io.swagger.annotations.ApiOperation;
+-import io.swagger.annotations.ApiParam;
+-import org.apache.shiro.authz.annotation.RequiresRoles;
+-import org.springframework.beans.factory.annotation.Autowired;
+-import org.springframework.web.bind.annotation.GetMapping;
+-import org.springframework.web.bind.annotation.RequestMapping;
+-import org.springframework.web.bind.annotation.RestController;
+-
+-@RestController
+-@RequestMapping(value ="/postsCollection")
+-public class PostsCollectionController {
+-    @Autowired
+-    IGoodsCollectionService iPostsCollectionService;
+-    @RequiresRoles("usr::user")
+-    @ApiOperation("查询所有收藏")
+-    @GetMapping("/getAllFollow")
+-    public ResultVo all(@ApiParam("用户id")int userId, @ApiParam("当前页")int current,@ApiParam("大小") int size){
+-        Page<GoodsCollection> page = new Page<>(current , size );
+-        LambdaQueryWrapper<GoodsCollection> userLambdaQueryWrapper = Wrappers.lambdaQuery();
+-        userLambdaQueryWrapper.eq(GoodsCollection::getUserId,userId);
+-        return new ResultVo().setData(iPostsCollectionService.findByPage(page,userLambdaQueryWrapper));
+-    }
+-    @RequiresRoles("usr::user")
+-    @ApiOperation("增加收藏")
+-    @GetMapping("/insert")
+-    public ResultVo insert(@ApiParam("用户id")int userId,@ApiParam("帖子id")int goodId){
+-        return new ResultVo().setData(iPostsCollectionService.insert(userId,goodId));
+-    }
+-    @RequiresRoles("usr::user")
+-    @ApiOperation("删除收藏")
+-    @GetMapping("/remove")
+-    public ResultVo remove(@ApiParam("用户id")int userId,@ApiParam("帖子id")int goodId){
+-        return new ResultVo().setData(iPostsCollectionService.remove(userId,goodId));
+-    }
+-}
+Index: fleaMarket/src/main/java/com/example/fleamarket/dao/IOrderDao.java
+===================================================================
+diff --git a/fleaMarket/src/main/java/com/example/fleamarket/dao/IOrderDao.java b/fleaMarket/src/main/java/com/example/fleamarket/dao/IOrderDao.java
+deleted file mode 100644
+--- a/fleaMarket/src/main/java/com/example/fleamarket/dao/IOrderDao.java	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
++++ /dev/null	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
+@@ -1,9 +0,0 @@
+-package com.example.fleamarket.dao;
+-
+-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+-import com.example.fleamarket.entity.Order;
+-import org.springframework.stereotype.Repository;
+-
+-@Repository
+-public interface IOrderDao extends BaseMapper<Order> {
+-}
+Index: fleaMarket/src/main/java/com/example/fleamarket/service/IUserService.java
+===================================================================
+diff --git a/fleaMarket/src/main/java/com/example/fleamarket/service/IUserService.java b/fleaMarket/src/main/java/com/example/fleamarket/service/IUserService.java
+deleted file mode 100644
+--- a/fleaMarket/src/main/java/com/example/fleamarket/service/IUserService.java	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
++++ /dev/null	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
+@@ -1,26 +0,0 @@
+-package com.example.fleamarket.service;
+-
+-
+-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+-import com.baomidou.mybatisplus.core.metadata.IPage;
+-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+-import com.baomidou.mybatisplus.extension.service.IService;
+-import com.example.fleamarket.entity.User;
+-import org.springframework.web.multipart.MultipartFile;
+-
+-public interface IUserService extends IService<User> {
+-    User queryById(String id);
+-
+-    Boolean insertUser(String userName, String passWord);
+-
+-    Boolean updateUer(int userId,String nickname,String phone,String age,String qq);
+-
+-    Boolean updatePhoto(MultipartFile file,int userId);
+-
+-    Boolean unqualifiedGoodsUpdate(String userName);
+-
+-    IPage<User> findByPage(Page<User> page, LambdaQueryWrapper<User> userLambdaQueryWrapper);
+-
+-    Boolean scoreUpdate(String userName,double score);
+-    String changeUser(int userId, String password1,String password2,String password3);
+-}
+Index: fleaMarket/src/main/java/com/example/fleamarket/service/impl/ReplyService.java
+===================================================================
+diff --git a/fleaMarket/src/main/java/com/example/fleamarket/service/impl/ReplyService.java b/fleaMarket/src/main/java/com/example/fleamarket/service/impl/ReplyService.java
+deleted file mode 100644
+--- a/fleaMarket/src/main/java/com/example/fleamarket/service/impl/ReplyService.java	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
++++ /dev/null	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
+@@ -1,47 +0,0 @@
+-package com.example.fleamarket.service.impl;
+-
+-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+-import com.baomidou.mybatisplus.extension.service.IService;
+-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+-import com.example.fleamarket.dao.IReplyDao;
+-import com.example.fleamarket.entity.Posts;
+-import com.example.fleamarket.entity.Reply;
+-import com.example.fleamarket.service.IReplyService;
+-import org.springframework.stereotype.Service;
+-
+-import java.util.List;
+-
+-@Service
+-public class ReplyService extends ServiceImpl<IReplyDao, Reply> implements IReplyService {
+-
+-
+-
+-    @Override
+-    public boolean insertWithPic(int Id, int floor, int postId, int sellManId, String pic, String description) {
+-        Reply reply=new Reply(Id,postId,sellManId,description,pic,floor);
+-
+-        return save(reply);
+-    }
+-
+-    @Override
+-    public boolean insertWithoutPic(int Id, int floor, int postId, int sellManId, String description) {
+-        Reply reply=new Reply(Id,postId,sellManId,description,floor);
+-        return save(reply);
+-    }
+-
+-
+-
+-    @Override
+-    public Boolean remove(int postId) {
+-        return null;
+-    }
+-
+-    @Override
+-    public List queryForReplyList(int postId) {
+-        return this.list(
+-                new LambdaQueryWrapper<Reply>()
+-                        .eq(Reply::getPostId, postId));
+-
+-
+-    }
+-}
+Index: fleaMarket/src/main/java/com/example/fleamarket/service/impl/AuditService.java
+===================================================================
+diff --git a/fleaMarket/src/main/java/com/example/fleamarket/service/impl/AuditService.java b/fleaMarket/src/main/java/com/example/fleamarket/service/impl/AuditService.java
+deleted file mode 100644
+--- a/fleaMarket/src/main/java/com/example/fleamarket/service/impl/AuditService.java	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
++++ /dev/null	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
+@@ -1,29 +0,0 @@
+-package com.example.fleamarket.service.impl;
+-
+-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+-import com.baomidou.mybatisplus.core.metadata.IPage;
+-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+-import com.example.fleamarket.dao.IAuditDao;
+-import com.example.fleamarket.dao.ICategoryDao;
+-import com.example.fleamarket.entity.Audit;
+-import com.example.fleamarket.entity.Category;
+-import com.example.fleamarket.service.IAuditService;
+-import com.example.fleamarket.service.ICategoryService;
+-import io.swagger.annotations.ApiModelProperty;
+-import org.springframework.stereotype.Service;
+-
+-@Service
+-public class AuditService extends ServiceImpl<IAuditDao, Audit> implements IAuditService {
+-    public Boolean insert(Boolean status,int goodId,int adminId){
+-        Audit audit = new Audit();
+-        audit.setStatus(status);
+-        audit.setGoodId(goodId);
+-        audit.setAdminId(adminId);
+-        return save(audit);
+-    }
+-    public IPage<Audit> findByPage(Page<Audit> page, LambdaQueryWrapper<Audit> userLambdaQueryWrapper){
+-        return  baseMapper.selectPage(page,userLambdaQueryWrapper);
+-    }
+-}
+Index: fleaMarket/src/main/java/com/example/fleamarket/dao/IGoodReportDao.java
+===================================================================
+diff --git a/fleaMarket/src/main/java/com/example/fleamarket/dao/IGoodReportDao.java b/fleaMarket/src/main/java/com/example/fleamarket/dao/IGoodReportDao.java
+deleted file mode 100644
+--- a/fleaMarket/src/main/java/com/example/fleamarket/dao/IGoodReportDao.java	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
++++ /dev/null	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
+@@ -1,11 +0,0 @@
+-package com.example.fleamarket.dao;
+-
+-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+-import com.example.fleamarket.entity.GoodReport;
+-import com.example.fleamarket.entity.Goods;
+-import org.springframework.stereotype.Repository;
+-
+-@Repository
+-public interface IGoodReportDao  extends BaseMapper<GoodReport> {
+-
+-}
+Index: fleaMarket/src/main/java/com/example/fleamarket/service/IOrderService.java
+===================================================================
+diff --git a/fleaMarket/src/main/java/com/example/fleamarket/service/IOrderService.java b/fleaMarket/src/main/java/com/example/fleamarket/service/IOrderService.java
+deleted file mode 100644
+--- a/fleaMarket/src/main/java/com/example/fleamarket/service/IOrderService.java	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
++++ /dev/null	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
+@@ -1,10 +0,0 @@
+-package com.example.fleamarket.service;
+-
+-import com.baomidou.mybatisplus.extension.service.IService;
+-import com.example.fleamarket.entity.Order;
+-
+-public interface IOrderService extends IService<Order> {
+-    Boolean baseUpdate(String buyerName, String phoneNumber,int orderId);
+-    Boolean statusUpdate(int orderId);
+-    int insert(int goodId,int solderId,int buyerId,String time,String buyerName,String phoneNumber);
+-}
+\ No newline at end of file
+Index: fleaMarket/src/main/java/com/example/fleamarket/dao/ICommentDao.java
+===================================================================
+diff --git a/fleaMarket/src/main/java/com/example/fleamarket/dao/ICommentDao.java b/fleaMarket/src/main/java/com/example/fleamarket/dao/ICommentDao.java
+deleted file mode 100644
+--- a/fleaMarket/src/main/java/com/example/fleamarket/dao/ICommentDao.java	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
++++ /dev/null	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
+@@ -1,10 +0,0 @@
+-package com.example.fleamarket.dao;
+-
+-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+-import com.example.fleamarket.entity.Comment;
+-import org.springframework.stereotype.Repository;
+-
+-@Repository
+-public interface ICommentDao extends BaseMapper<Comment> {
+-
+-}
+Index: fleaMarket/src/main/java/com/example/fleamarket/service/IPostsCollectionService.java
+===================================================================
+diff --git a/fleaMarket/src/main/java/com/example/fleamarket/service/IPostsCollectionService.java b/fleaMarket/src/main/java/com/example/fleamarket/service/IPostsCollectionService.java
+deleted file mode 100644
+--- a/fleaMarket/src/main/java/com/example/fleamarket/service/IPostsCollectionService.java	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
++++ /dev/null	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
+@@ -1,16 +0,0 @@
+-package com.example.fleamarket.service;
+-
+-
+-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+-import com.baomidou.mybatisplus.core.metadata.IPage;
+-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+-import com.baomidou.mybatisplus.extension.service.IService;
+-import com.example.fleamarket.entity.GoodsCollection;
+-import com.example.fleamarket.entity.PostsCollection;
+-
+-
+-public interface IPostsCollectionService extends IService<PostsCollection> {
+-    Boolean insert(int userId,int goodId);
+-    Boolean remove(int userId,int goodId);
+-    IPage<PostsCollection> findByPage(Page<PostsCollection> page, LambdaQueryWrapper<PostsCollection> userLambdaQueryWrapper);
+-}
+Index: fleaMarket/src/main/java/com/example/fleamarket/config/CorsFilterConfig.java
+===================================================================
+diff --git a/fleaMarket/src/main/java/com/example/fleamarket/config/CorsFilterConfig.java b/fleaMarket/src/main/java/com/example/fleamarket/config/CorsFilterConfig.java
+deleted file mode 100644
+--- a/fleaMarket/src/main/java/com/example/fleamarket/config/CorsFilterConfig.java	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
++++ /dev/null	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
+@@ -1,34 +0,0 @@
+-package com.example.fleamarket.config;
+-
+-import org.springframework.context.annotation.Bean;
+-import org.springframework.context.annotation.Configuration;
+-import org.springframework.web.cors.CorsConfiguration;
+-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+-import org.springframework.web.filter.CorsFilter;
+-
+-@Configuration
+-public class CorsFilterConfig {
+-    @Bean
+-    public CorsFilter corsFilter() {
+-        // 1.添加CORS配置信息
+-        CorsConfiguration config = new CorsConfiguration();
+-        // 放行哪些原始域
+-        config.addAllowedOrigin("*");
+-        // 是否发送Cookie信息
+-        config.setAllowCredentials(true);
+-        // 放行哪些原始域(请求方式)
+-        config.addAllowedMethod("*");
+-        // 放行哪些原始域(头部信息)
+-        config.addAllowedHeader("*");
+-        // 暴露哪些头部信息（因为跨域访问默认不能获取全部头部信息）
+-        config.addExposedHeader("*");
+-
+-        // 2.添加映射路径导入配置
+-        UrlBasedCorsConfigurationSource configSource = new UrlBasedCorsConfigurationSource();
+-        configSource.registerCorsConfiguration("/**", config);
+-
+-        // 3.返回新的CorsFilter.
+-        return new CorsFilter(configSource);
+-    }
+-}
+-
+Index: fleaMarket/src/main/java/com/example/fleamarket/controller/CollectionController.java
+===================================================================
+diff --git a/fleaMarket/src/main/java/com/example/fleamarket/controller/CollectionController.java b/fleaMarket/src/main/java/com/example/fleamarket/controller/CollectionController.java
+deleted file mode 100644
+--- a/fleaMarket/src/main/java/com/example/fleamarket/controller/CollectionController.java	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
++++ /dev/null	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
+@@ -1,45 +0,0 @@
+-package com.example.fleamarket.controller;
+-
+-
+-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+-import com.example.fleamarket.entity.GoodsCollection;
+-import com.example.fleamarket.response.ResultVo;
+-import com.example.fleamarket.service.IGoodsCollectionService;
+-import io.swagger.annotations.ApiOperation;
+-import io.swagger.annotations.ApiParam;
+-import org.apache.shiro.authz.annotation.RequiresRoles;
+-import org.springframework.beans.factory.annotation.Autowired;
+-import org.springframework.web.bind.annotation.CrossOrigin;
+-import org.springframework.web.bind.annotation.GetMapping;
+-import org.springframework.web.bind.annotation.RequestMapping;
+-import org.springframework.web.bind.annotation.RestController;
+-
+-@RestController
+-@RequestMapping(value ="/goodsCollection")
+-public class CollectionController {
+-    @Autowired
+-    IGoodsCollectionService iGoodsCollectionService;
+-    @RequiresRoles("usr::user")
+-    @ApiOperation("查询所有收藏")
+-    @GetMapping("/getAllFollow")
+-    public ResultVo all(@ApiParam("用户id")int userId, @ApiParam("当前页")int current,@ApiParam("大小") int size){
+-        Page<GoodsCollection> page = new Page<>(current , size );
+-        LambdaQueryWrapper<GoodsCollection> userLambdaQueryWrapper = Wrappers.lambdaQuery();
+-        userLambdaQueryWrapper.eq(GoodsCollection::getUserId,userId);
+-        return new ResultVo().setData(iGoodsCollectionService.findByPage(page,userLambdaQueryWrapper));
+-    }
+-    @RequiresRoles("usr::user")
+-    @ApiOperation("增加收藏")
+-    @GetMapping("/insert")
+-    public ResultVo insert(@ApiParam("用户id")int userId,@ApiParam("商品id")int goodId){
+-        return new ResultVo().setData(iGoodsCollectionService.insert(userId,goodId));
+-    }
+-    @RequiresRoles("usr::user")
+-    @ApiOperation("删除收藏")
+-    @GetMapping("/remove")
+-    public ResultVo remove(@ApiParam("用户id")int userId,@ApiParam("商品id")int goodId){
+-        return new ResultVo().setData(iGoodsCollectionService.remove(userId,goodId));
+-    }
+-}
+Index: fleaMarket/src/main/java/com/example/fleamarket/dao/IAuditDao.java
+===================================================================
+diff --git a/fleaMarket/src/main/java/com/example/fleamarket/dao/IAuditDao.java b/fleaMarket/src/main/java/com/example/fleamarket/dao/IAuditDao.java
+deleted file mode 100644
+--- a/fleaMarket/src/main/java/com/example/fleamarket/dao/IAuditDao.java	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
++++ /dev/null	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
+@@ -1,9 +0,0 @@
+-package com.example.fleamarket.dao;
+-
+-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+-import com.example.fleamarket.entity.Audit;
+-import org.springframework.stereotype.Repository;
+-
+-@Repository
+-public interface IAuditDao extends BaseMapper<Audit> {
+-}
+Index: fleaMarket/src/main/java/com/example/fleamarket/dao/IUserDao.java
+===================================================================
+diff --git a/fleaMarket/src/main/java/com/example/fleamarket/dao/IUserDao.java b/fleaMarket/src/main/java/com/example/fleamarket/dao/IUserDao.java
+deleted file mode 100644
+--- a/fleaMarket/src/main/java/com/example/fleamarket/dao/IUserDao.java	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
++++ /dev/null	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
+@@ -1,9 +0,0 @@
+-package com.example.fleamarket.dao;
+-
+-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+-import com.example.fleamarket.entity.User;
+-import org.springframework.stereotype.Repository;
+-
+-@Repository
+-public interface IUserDao extends BaseMapper<User> {
+-}
+Index: fleaMarket/src/main/resources/META-INF/additional-spring-configuration-metadata.json
+===================================================================
+diff --git a/fleaMarket/src/main/resources/META-INF/additional-spring-configuration-metadata.json b/fleaMarket/src/main/resources/META-INF/additional-spring-configuration-metadata.json
+deleted file mode 100644
+--- a/fleaMarket/src/main/resources/META-INF/additional-spring-configuration-metadata.json	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
++++ /dev/null	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
+@@ -1,13 +0,0 @@
+-{
+-  "properties": [
+-    {
+-      "name": "oos.bucketname",
+-      "type": "java.lang.String",
+-      "description": "Description for oos.bucketname."
+-    },
+-    {
+-      "name": "oss",
+-      "type": "java.lang.String",
+-      "description": "Description for oss."
+-    }
+-  ] }
+\ No newline at end of file
+Index: fleaMarket/src/main/java/com/example/fleamarket/service/impl/PostService.java
+===================================================================
+diff --git a/fleaMarket/src/main/java/com/example/fleamarket/service/impl/PostService.java b/fleaMarket/src/main/java/com/example/fleamarket/service/impl/PostService.java
+deleted file mode 100644
+--- a/fleaMarket/src/main/java/com/example/fleamarket/service/impl/PostService.java	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
++++ /dev/null	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
+@@ -1,56 +0,0 @@
+-package com.example.fleamarket.service.impl;
+-
+-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+-import com.example.fleamarket.dao.IPostsDao;
+-import com.example.fleamarket.entity.Category;
+-import com.example.fleamarket.entity.Posts;
+-import com.example.fleamarket.service.IPostsService;
+-import org.springframework.stereotype.Service;
+-
+-import java.util.List;
+-
+-@Service
+-public class PostService extends ServiceImpl<IPostsDao, Posts> implements IPostsService {
+-    @Override
+-    public Posts queryById(int postId) {
+-        return getOne(new LambdaQueryWrapper<Posts>()
+-                .eq(Posts::getPostId,postId)
+-
+-        );
+-    }
+-
+-    @Override
+-    public boolean insert(int postId, int buyerId, String description) {
+-        Posts posts=new Posts();
+-        posts.setPostId(postId);
+-        posts.setBuyerId(buyerId);
+-        posts.setDescription(description);
+-        save(posts);
+-        return save(posts);
+-    }
+-
+-    public Boolean remove(int postId) {
+-        LambdaQueryWrapper<Posts> lwq = Wrappers.lambdaQuery();
+-        lwq.eq(Posts::getPostId,postId);
+-        return remove(lwq);
+-    }
+-
+-    @Override
+-    public List<Category> findCategorylist(int postId) {
+-        return getBaseMapper().getCategoryByPostId(postId);
+-    }
+-
+-    @Override
+-    public boolean addCategory(int postID, List<Category> categoryList) {
+-        for (Category c : categoryList
+-        ) {
+-            getBaseMapper().addCategory(postID, c.getCategoryId());
+-        }
+-        ;
+-        return false;
+-    }
+-
+-
+-}
+Index: fleaMarket/src/main/java/com/example/fleamarket/shrio/CORSFilter.java
+===================================================================
+diff --git a/fleaMarket/src/main/java/com/example/fleamarket/shrio/CORSFilter.java b/fleaMarket/src/main/java/com/example/fleamarket/shrio/CORSFilter.java
+deleted file mode 100644
+--- a/fleaMarket/src/main/java/com/example/fleamarket/shrio/CORSFilter.java	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
++++ /dev/null	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
+@@ -1,40 +0,0 @@
+-package com.example.fleamarket.shrio;
+-
+-import lombok.extern.slf4j.Slf4j;
+-import org.apache.shiro.web.filter.authc.UserFilter;
+-import org.springframework.context.annotation.Configuration;
+-import org.springframework.http.HttpStatus;
+-import org.springframework.stereotype.Component;
+-import org.springframework.web.bind.annotation.RequestMethod;
+-
+-import javax.servlet.*;
+-import javax.servlet.http.HttpServletRequest;
+-import javax.servlet.http.HttpServletResponse;
+-import java.io.IOException;
+-
+-@Component
+-public class CORSFilter implements Filter {
+-
+-    @Override
+-    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
+-            throws IOException, ServletException {
+-        HttpServletResponse res = (HttpServletResponse) response;
+-        res.addHeader("Access-Control-Allow-Credentials", "true");
+-        res.addHeader("Access-Control-Allow-Origin", "http://39.107.65.181");
+-        res.addHeader("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT");
+-        res.addHeader("Access-Control-Allow-Headers", "Content-Type,X-CAF-Authorization-Token,sessionToken,X-TOKEN");
+-        if (((HttpServletRequest) request).getMethod().equals("OPTIONS")) {
+-            response.getWriter().println("ok");
+-            return;
+-        }
+-        chain.doFilter(request, response);
+-    }
+-    @Override
+-    public void destroy() {
+-    }
+-    @Override
+-    public void init(FilterConfig filterConfig) throws ServletException {
+-    }
+-}
+-
+-
+Index: fleaMarket/src/main/java/com/example/fleamarket/exception/handler/GlobalExceptionHandler.java
+===================================================================
+diff --git a/fleaMarket/src/main/java/com/example/fleamarket/exception/handler/GlobalExceptionHandler.java b/fleaMarket/src/main/java/com/example/fleamarket/exception/handler/GlobalExceptionHandler.java
+deleted file mode 100644
+--- a/fleaMarket/src/main/java/com/example/fleamarket/exception/handler/GlobalExceptionHandler.java	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
++++ /dev/null	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
+@@ -1,24 +0,0 @@
+-package com.example.fleamarket.exception.handler;
+-
+-import com.example.fleamarket.exception.ControllerException;
+-import com.example.fleamarket.exception.ServiceException;
+-import com.example.fleamarket.response.ResultVo;
+-
+-import lombok.extern.slf4j.Slf4j;
+-import org.springframework.http.HttpStatus;
+-import org.springframework.http.ResponseEntity;
+-import org.springframework.web.bind.annotation.ControllerAdvice;
+-import org.springframework.web.bind.annotation.ExceptionHandler;
+-
+-//全局异常处理类
+-@ControllerAdvice
+-@Slf4j
+-public class GlobalExceptionHandler {
+-
+-	@ExceptionHandler(value = { ControllerException.class, ServiceException.class })
+-	public ResponseEntity<ResultVo> controllerExceptionHandler(Exception e) {
+-		log.info("ControllerException/ServiceException:" + e.getMessage());
+-		return new ResponseEntity<ResultVo>(new ResultVo(400, e.getMessage(), null),
+-				HttpStatus.BAD_REQUEST);
+-	}
+-}
+Index: fleaMarket/src/main/java/com/example/fleamarket/FleaMarketApplication.java
+===================================================================
+diff --git a/fleaMarket/src/main/java/com/example/fleamarket/FleaMarketApplication.java b/fleaMarket/src/main/java/com/example/fleamarket/FleaMarketApplication.java
+deleted file mode 100644
+--- a/fleaMarket/src/main/java/com/example/fleamarket/FleaMarketApplication.java	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
++++ /dev/null	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
+@@ -1,15 +0,0 @@
+-package com.example.fleamarket;
+-
+-import org.mybatis.spring.annotation.MapperScan;
+-import org.springframework.boot.SpringApplication;
+-import org.springframework.boot.autoconfigure.SpringBootApplication;
+-
+-@SpringBootApplication(scanBasePackages = "com.example.fleamarket")
+-@MapperScan("com.example.fleamarket.dao")
+-public class FleaMarketApplication {
+-
+-    public static void main(String[] args) {
+-        SpringApplication.run(FleaMarketApplication.class, args);
+-    }
+-
+-}
+Index: fleaMarket/src/main/java/com/example/fleamarket/service/IGoodService.java
+===================================================================
+diff --git a/fleaMarket/src/main/java/com/example/fleamarket/service/IGoodService.java b/fleaMarket/src/main/java/com/example/fleamarket/service/IGoodService.java
+deleted file mode 100644
+--- a/fleaMarket/src/main/java/com/example/fleamarket/service/IGoodService.java	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
++++ /dev/null	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
+@@ -1,29 +0,0 @@
+-package com.example.fleamarket.service;
+-
+-
+-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+-import com.baomidou.mybatisplus.core.metadata.IPage;
+-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+-import com.baomidou.mybatisplus.extension.service.IService;
+-import com.example.fleamarket.entity.Goods;
+-import org.springframework.web.multipart.MultipartFile;
+-
+-public interface IGoodService extends IService<Goods> {
+-    Goods queryById(int goodId);
+-
+-    Boolean update(String goodName, String summary, String detail, double price, String goodSort, int goodId);
+-
+-    Boolean updatePhoto(MultipartFile file, int goodId);
+-
+-    Boolean remove(int goodId);
+-
+-    int insert(String goodName, String summary, String detail, double price, String goodSort, int userId);
+-
+-    IPage<Goods> findByPage(Page<Goods> page, LambdaQueryWrapper<Goods> userLambdaQueryWrapper);
+-
+-    Boolean approved(String approved,int goodId);
+-
+-    Boolean isSoldUpdate(int goodId);
+-}
+-
+Index: fleaMarket/src/main/java/com/example/fleamarket/controller/GoodReportController.java
+===================================================================
+diff --git a/fleaMarket/src/main/java/com/example/fleamarket/controller/GoodReportController.java b/fleaMarket/src/main/java/com/example/fleamarket/controller/GoodReportController.java
+deleted file mode 100644
+--- a/fleaMarket/src/main/java/com/example/fleamarket/controller/GoodReportController.java	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
++++ /dev/null	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
+@@ -1,49 +0,0 @@
+-package com.example.fleamarket.controller;
+-
+-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+-import com.example.fleamarket.entity.Announcement;
+-import com.example.fleamarket.entity.GoodReport;
+-import com.example.fleamarket.entity.Goods;
+-import com.example.fleamarket.response.ResultVo;
+-import com.example.fleamarket.service.IGoodReportService;
+-import io.swagger.annotations.ApiOperation;
+-import io.swagger.annotations.ApiParam;
+-import lombok.extern.slf4j.Slf4j;
+-import org.apache.shiro.authz.annotation.RequiresRoles;
+-import org.springframework.beans.factory.annotation.Autowired;
+-import org.springframework.web.bind.annotation.CrossOrigin;
+-import org.springframework.web.bind.annotation.GetMapping;
+-import org.springframework.web.bind.annotation.RequestMapping;
+-import org.springframework.web.bind.annotation.RestController;
+-
+-@Slf4j
+-@RestController
+-@RequestMapping(value ="/goodReport")
+-public class GoodReportController {
+-    @Autowired
+-    IGoodReportService iGoodReportService;
+-    @RequiresRoles("admin")
+-    @ApiOperation("查询所有商品举报记录")
+-    @GetMapping("/getAllGoodReport")
+-    public ResultVo all(@ApiParam("当前页")int current, @ApiParam("大小") int size){
+-        Page<GoodReport> page = new Page<>(current , size );
+-        LambdaQueryWrapper<GoodReport> userLambdaQueryWrapper = Wrappers.lambdaQuery();
+-        userLambdaQueryWrapper.eq(GoodReport::getStatus, "未审核");
+-        return new ResultVo().setData(iGoodReportService.findByPage(page,userLambdaQueryWrapper));
+-    }
+-    @RequiresRoles("user::user")
+-    @ApiOperation("增加举报记录")
+-    @GetMapping("/insert")
+-    public ResultVo insert(@ApiParam("内容")String context,int goodId){
+-        return new ResultVo().setData(iGoodReportService.insert(context,goodId));
+-    }
+-    @RequiresRoles("admin")
+-    @ApiOperation("修改审核状态")
+-    @GetMapping("/update")
+-    public ResultVo update(String status,int reportId){
+-        return new ResultVo().setData(iGoodReportService.update(status,reportId));
+-    }
+-
+-}
+Index: fleaMarket/.gitignore
+===================================================================
+diff --git a/fleaMarket/.gitignore b/fleaMarket/.gitignore
+deleted file mode 100644
+--- a/fleaMarket/.gitignore	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
++++ /dev/null	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
+@@ -1,33 +0,0 @@
+-HELP.md
+-target/
+-!.mvn/wrapper/maven-wrapper.jar
+-!**/src/main/**/target/
+-!**/src/test/**/target/
+-
+-### STS ###
+-.apt_generated
+-.classpath
+-.factorypath
+-.project
+-.settings
+-.springBeans
+-.sts4-cache
+-
+-### IntelliJ IDEA ###
+-.idea
+-*.iws
+-*.iml
+-*.ipr
+-
+-### NetBeans ###
+-/nbproject/private/
+-/nbbuild/
+-/dist/
+-/nbdist/
+-/.nb-gradle/
+-build/
+-!**/src/main/**/build/
+-!**/src/test/**/build/
+-
+-### VS Code ###
+-.vscode/
+Index: fleaMarket/src/main/java/com/example/fleamarket/service/IPostsService.java
+===================================================================
+diff --git a/fleaMarket/src/main/java/com/example/fleamarket/service/IPostsService.java b/fleaMarket/src/main/java/com/example/fleamarket/service/IPostsService.java
+deleted file mode 100644
+--- a/fleaMarket/src/main/java/com/example/fleamarket/service/IPostsService.java	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
++++ /dev/null	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
+@@ -1,17 +0,0 @@
+-package com.example.fleamarket.service;
+-
+-import com.baomidou.mybatisplus.extension.service.IService;
+-import com.example.fleamarket.entity.Category;
+-import com.example.fleamarket.entity.Posts;
+-
+-import java.util.List;
+-
+-public interface IPostsService extends IService<Posts> {
+-    Posts queryById(int PostId);
+-     boolean insert(int postId,int buyerId,String description);
+-     Boolean remove(int postId);
+-     List<Category> findCategorylist(int postId);
+-     boolean addCategory(int postId,List<Category>categoryList);
+-
+-
+-}
+Index: fleaMarket/src/main/java/com/example/fleamarket/service/impl/CommentService.java
+===================================================================
+diff --git a/fleaMarket/src/main/java/com/example/fleamarket/service/impl/CommentService.java b/fleaMarket/src/main/java/com/example/fleamarket/service/impl/CommentService.java
+deleted file mode 100644
+--- a/fleaMarket/src/main/java/com/example/fleamarket/service/impl/CommentService.java	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
++++ /dev/null	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
+@@ -1,35 +0,0 @@
+-package com.example.fleamarket.service.impl;
+-
+-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+-import com.baomidou.mybatisplus.core.metadata.IPage;
+-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+-import com.example.fleamarket.dao.ICommentDao;
+-import com.example.fleamarket.entity.Comment;
+-import com.example.fleamarket.service.ICommentService;
+-import org.springframework.stereotype.Service;
+-
+-
+-@Service
+-public class CommentService extends ServiceImpl<ICommentDao, Comment> implements ICommentService {
+-	@Override
+-	public Boolean insert(int commentId,int becommentedId,String Context){
+-		Comment comment = new Comment();
+-		comment.setCommentUserId(commentId);
+-		comment.setBeCommentedUserId(becommentedId);
+-		comment.setContent(Context);
+-		return save(comment);
+-	}
+-	@Override
+-	public Boolean remove(int commentId) {
+-		LambdaQueryWrapper<Comment> lwq = Wrappers.lambdaQuery();
+-		lwq.eq(Comment::getCommentId,commentId);
+-		return remove(lwq);
+-	}
+-	@Override
+-	public IPage<Comment> findByPage(Page<Comment> page, LambdaQueryWrapper<Comment> userLambdaQueryWrapper){
+-		return  baseMapper.selectPage(page,userLambdaQueryWrapper);
+-	}
+-
+-}
+Index: fleaMarket/src/test/java/com/example/fleamarket/FleaMarketApplicationTests.java
+===================================================================
+diff --git a/fleaMarket/src/test/java/com/example/fleamarket/FleaMarketApplicationTests.java b/fleaMarket/src/test/java/com/example/fleamarket/FleaMarketApplicationTests.java
+deleted file mode 100644
+--- a/fleaMarket/src/test/java/com/example/fleamarket/FleaMarketApplicationTests.java	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
++++ /dev/null	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
+@@ -1,13 +0,0 @@
+-package com.example.fleamarket;
+-
+-import org.junit.jupiter.api.Test;
+-import org.springframework.boot.test.context.SpringBootTest;
+-
+-@SpringBootTest
+-class FleaMarketApplicationTests {
+-
+-    @Test
+-    void contextLoads() {
+-    }
+-
+-}
+Index: fleaMarket/pom.xml
+===================================================================
+diff --git a/fleaMarket/pom.xml b/fleaMarket/pom.xml
+deleted file mode 100644
+--- a/fleaMarket/pom.xml	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
++++ /dev/null	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
+@@ -1,143 +0,0 @@
+-<?xml version="1.0" encoding="UTF-8"?>
+-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+-    <modelVersion>4.0.0</modelVersion>
+-    <parent>
+-        <groupId>org.springframework.boot</groupId>
+-        <artifactId>spring-boot-starter-parent</artifactId>
+-        <version>2.6.5</version>
+-        <relativePath/> <!-- lookup parent from repository -->
+-    </parent>
+-    <groupId>com.example</groupId>
+-    <artifactId>fleaMarket</artifactId>
+-    <version>0.0.1-SNAPSHOT</version>
+-    <name>fleaMarket</name>
+-    <description>fleaMarket</description>
+-    <properties>
+-        <java.version>1.8</java.version>
+-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+-        <shiro.version>1.2.2</shiro.version>
+-        <mybatis-plus.version>3.5.1</mybatis-plus.version>
+-    </properties>
+-    <dependencies>
+-
+-        <dependency>
+-            <groupId>io.springfox</groupId>
+-            <artifactId>springfox-swagger2</artifactId>
+-            <version>2.9.2</version>
+-        </dependency>
+-        <dependency>
+-            <groupId>io.springfox</groupId>
+-            <artifactId>springfox-swagger-ui</artifactId>
+-            <version>2.9.2</version>
+-        </dependency>
+-        <dependency>
+-            <groupId>org.springframework.boot</groupId>
+-            <artifactId>spring-boot-starter-web</artifactId>
+-        </dependency>
+-
+-        <dependency>
+-            <groupId>org.springframework.boot</groupId>
+-            <artifactId>spring-boot-starter-data-jpa</artifactId>
+-        </dependency>
+-
+-        <dependency>
+-            <groupId>org.projectlombok</groupId>
+-            <artifactId>lombok</artifactId>
+-        </dependency>
+-
+-        <dependency>
+-            <groupId>org.springframework.boot</groupId>
+-            <artifactId>spring-boot-starter-test</artifactId>
+-            <scope>test</scope>
+-            <exclusions>
+-                <exclusion>
+-                    <groupId>org.junit.vintage</groupId>
+-                    <artifactId>junit-vintage-engine</artifactId>
+-                </exclusion>
+-            </exclusions>
+-        </dependency>
+-        <dependency>
+-            <groupId>mysql</groupId>
+-            <artifactId>mysql-connector-java</artifactId>
+-            <scope>runtime</scope>
+-        </dependency>
+-
+-        <dependency>
+-            <groupId>com.github.pagehelper</groupId>
+-            <artifactId>pagehelper</artifactId>
+-            <version>5.3.0</version>
+-        </dependency>
+-
+-        <dependency>
+-            <groupId>net.sf.json-lib</groupId>
+-            <artifactId>json-lib</artifactId>
+-            <version>2.4</version>
+-            <classifier>jdk15</classifier>
+-        </dependency>
+-        <dependency>
+-            <groupId>junit</groupId>
+-            <artifactId>junit</artifactId>
+-            <scope>test</scope>
+-        </dependency>
+-        <!-- shiro相关依赖 -->
+-        <dependency>
+-            <groupId>org.apache.shiro</groupId>
+-            <artifactId>shiro-web</artifactId>
+-            <version>${shiro.version}</version>
+-        </dependency>
+-        <dependency>
+-            <groupId>org.apache.shiro</groupId>
+-            <artifactId>shiro-ehcache</artifactId>
+-            <version>${shiro.version}</version>
+-        </dependency>
+-        <dependency>
+-            <groupId>org.apache.shiro</groupId>
+-            <artifactId>shiro-spring</artifactId>
+-            <version>${shiro.version}</version>
+-        </dependency>
+-        <dependency>
+-            <groupId>org.apache.shiro</groupId>
+-            <artifactId>shiro-quartz</artifactId>
+-            <version>${shiro.version}</version>
+-        </dependency>
+-        <dependency>
+-            <groupId>commons-logging</groupId>
+-            <artifactId>commons-logging</artifactId>
+-            <version>1.1.3</version>
+-        </dependency>
+-        <!--mybaits-plus-->
+-        <dependency>
+-            <groupId>com.baomidou</groupId>
+-            <artifactId>mybatis-plus-boot-starter</artifactId>
+-            <version>${mybatis-plus.version}</version>
+-        </dependency>
+-        <dependency>
+-            <groupId>com.baomidou</groupId>
+-            <artifactId>mybatis-plus-extension</artifactId>
+-            <version>${mybatis-plus.version}</version>
+-        </dependency>
+-        <!--阿里云oss -->
+-        <dependency>
+-            <groupId>com.alibaba.cloud</groupId>
+-            <artifactId>spring-cloud-starter-alicloud-oss</artifactId>
+-            <version>2.1.0.RELEASE</version>
+-        </dependency>
+-        <!--Hibernate Validator-->
+-        <dependency>
+-            <groupId>org.springframework.boot</groupId>
+-            <artifactId>spring-boot-starter-validation</artifactId>
+-        </dependency>
+-
+-    </dependencies>
+-
+-    <build>
+-        <plugins>
+-            <plugin>
+-                <groupId>org.springframework.boot</groupId>
+-                <artifactId>spring-boot-maven-plugin</artifactId>
+-            </plugin>
+-        </plugins>
+-    </build>
+-
+-</project>
+Index: fleaMarket/src/main/java/com/example/fleamarket/controller/AnnouncementController.java
+===================================================================
+diff --git a/fleaMarket/src/main/java/com/example/fleamarket/controller/AnnouncementController.java b/fleaMarket/src/main/java/com/example/fleamarket/controller/AnnouncementController.java
+deleted file mode 100644
+--- a/fleaMarket/src/main/java/com/example/fleamarket/controller/AnnouncementController.java	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
++++ /dev/null	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
+@@ -1,41 +0,0 @@
+-package com.example.fleamarket.controller;
+-
+-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+-import com.example.fleamarket.entity.Announcement;
+-import com.example.fleamarket.response.ResultVo;
+-import com.example.fleamarket.service.IAnnouncementService;
+-import io.swagger.annotations.ApiOperation;
+-import io.swagger.annotations.ApiParam;
+-import lombok.extern.slf4j.Slf4j;
+-import org.apache.shiro.authz.annotation.RequiresRoles;
+-import org.springframework.beans.factory.annotation.Autowired;
+-import org.springframework.web.bind.annotation.CrossOrigin;
+-import org.springframework.web.bind.annotation.GetMapping;
+-import org.springframework.web.bind.annotation.RequestMapping;
+-import org.springframework.web.bind.annotation.RestController;
+-
+-@Slf4j
+-@RestController
+-@RequestMapping(value ="/announcement")
+-public class AnnouncementController {
+-    @Autowired
+-    IAnnouncementService iAnnouncementService;
+-    @ApiOperation("查询所有公告")
+-    @GetMapping("/getAllAnnouncement")
+-    public ResultVo all(@ApiParam("当前页")int current,@ApiParam("大小") int size){
+-        Page<Announcement> page = new Page<>(current, size );
+-        return new ResultVo().setData(iAnnouncementService.findByPage(page,null));
+-    }
+-    @RequiresRoles("admin")
+-    @ApiOperation("增加公告")
+-    @GetMapping("/insert")
+-    public ResultVo insert(@ApiParam("公告内容")String context){
+-        return new ResultVo().setData(iAnnouncementService.insert(context));
+-    }
+-    @RequiresRoles("admin")
+-    @ApiOperation("删除公告")
+-    @GetMapping("/remove")
+-    public ResultVo remove(@ApiParam("公告id")int announcementId){
+-        return new ResultVo().setData(iAnnouncementService.remove(announcementId));
+-    }
+-}
+Index: fleaMarket/src/main/java/com/example/fleamarket/dao/IGoodsDao.java
+===================================================================
+diff --git a/fleaMarket/src/main/java/com/example/fleamarket/dao/IGoodsDao.java b/fleaMarket/src/main/java/com/example/fleamarket/dao/IGoodsDao.java
+deleted file mode 100644
+--- a/fleaMarket/src/main/java/com/example/fleamarket/dao/IGoodsDao.java	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
++++ /dev/null	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
+@@ -1,10 +0,0 @@
+-package com.example.fleamarket.dao;
+-
+-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+-import com.example.fleamarket.entity.Goods;
+-import org.springframework.stereotype.Repository;
+-
+-@Repository
+-public interface IGoodsDao extends BaseMapper<Goods> {
+-
+-}
+Index: fleaMarket/src/main/java/com/example/fleamarket/dao/IPostsCollectionDao.java
+===================================================================
+diff --git a/fleaMarket/src/main/java/com/example/fleamarket/dao/IPostsCollectionDao.java b/fleaMarket/src/main/java/com/example/fleamarket/dao/IPostsCollectionDao.java
+deleted file mode 100644
+--- a/fleaMarket/src/main/java/com/example/fleamarket/dao/IPostsCollectionDao.java	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
++++ /dev/null	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
+@@ -1,11 +0,0 @@
+-package com.example.fleamarket.dao;
+-
+-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+-import com.example.fleamarket.entity.GoodsCollection;
+-import com.example.fleamarket.entity.PostsCollection;
+-import org.springframework.stereotype.Repository;
+-
+-@Repository
+-public interface IPostsCollectionDao extends BaseMapper<PostsCollection> {
+-
+-}
+Index: fleaMarket/src/main/java/com/example/fleamarket/service/IFollowService.java
+===================================================================
+diff --git a/fleaMarket/src/main/java/com/example/fleamarket/service/IFollowService.java b/fleaMarket/src/main/java/com/example/fleamarket/service/IFollowService.java
+deleted file mode 100644
+--- a/fleaMarket/src/main/java/com/example/fleamarket/service/IFollowService.java	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
++++ /dev/null	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
+@@ -1,13 +0,0 @@
+-package com.example.fleamarket.service;
+-
+-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+-import com.baomidou.mybatisplus.core.metadata.IPage;
+-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+-import com.baomidou.mybatisplus.extension.service.IService;
+-import com.example.fleamarket.entity.Follow;
+-
+-public interface IFollowService extends IService<Follow> {
+-    Boolean remove(int followerId,int followedId);
+-    Boolean insert(int followerId,int followedId);
+-    IPage<Follow> findByPage(Page<Follow> page, LambdaQueryWrapper<Follow> userLambdaQueryWrapper);
+-}
+Index: fleaMarket/src/main/java/com/example/fleamarket/controller/UserController.java
+===================================================================
+diff --git a/fleaMarket/src/main/java/com/example/fleamarket/controller/UserController.java b/fleaMarket/src/main/java/com/example/fleamarket/controller/UserController.java
+deleted file mode 100644
+--- a/fleaMarket/src/main/java/com/example/fleamarket/controller/UserController.java	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
++++ /dev/null	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
+@@ -1,144 +0,0 @@
+-package com.example.fleamarket.controller;
+-
+-
+-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+-import com.example.fleamarket.entity.User;
+-import com.example.fleamarket.response.ResultVo;
+-import com.example.fleamarket.service.IUserService;
+-import io.swagger.annotations.ApiOperation;
+-import io.swagger.annotations.ApiParam;
+-import lombok.extern.slf4j.Slf4j;
+-import org.apache.shiro.SecurityUtils;
+-import org.apache.shiro.authc.IncorrectCredentialsException;
+-import org.apache.shiro.authc.UnknownAccountException;
+-import org.apache.shiro.authc.UsernamePasswordToken;
+-import org.apache.shiro.authz.annotation.RequiresRoles;
+-import org.apache.shiro.crypto.hash.SimpleHash;
+-import org.apache.shiro.subject.Subject;
+-import org.springframework.beans.factory.annotation.Autowired;
+-import org.springframework.web.bind.annotation.*;
+-import org.springframework.web.multipart.MultipartFile;
+-
+-import javax.servlet.http.HttpServletResponse;
+-import java.util.HashMap;
+-import java.util.Map;
+-
+-@Slf4j
+-@RestController
+-@RequestMapping(value = "/user")
+-public class UserController {
+-    @Autowired
+-    IUserService iUserService;
+-
+-    @ApiOperation("登录接口")
+-    @PostMapping("/login")
+-    public ResultVo login(@ApiParam("用户名") String username, @ApiParam("密码") String password) {
+-        log.info("登录接口");
+-        Subject subject = SecurityUtils.getSubject();
+-        User us = iUserService.queryById(username);
+-        if (us != null) {
+-            String salt = us.getSalt();
+-            password = new SimpleHash("md5", password, salt, 2).toString();
+-        }
+-        UsernamePasswordToken token = new UsernamePasswordToken(username, password);
+-        try {
+-            System.out.println("认证状态："+subject.isAuthenticated());
+-            subject.login(token);
+-            System.out.println("认证状态："+subject.isAuthenticated());
+-            System.out.println("user:"+subject.hasRole("user"));
+-        } catch (UnknownAccountException e) {
+-            e.printStackTrace();
+-            return new ResultVo().setMessage("用户名不存在");
+-        } catch (IncorrectCredentialsException e) {
+-            e.printStackTrace();
+-            return new ResultVo().setMessage("密码错误");
+-        }
+-        Map<String, Object> map = new HashMap<>();
+-        map.put("user", us);
+-        map.put("token", token);
+-        return new ResultVo().setCode(200).setMessage("登录成功").setData(map);
+-    }
+-    @ApiOperation("登陆状态查询接口")
+-    @PostMapping("/status")
+-    public ResultVo status() {
+-        Subject subject = SecurityUtils.getSubject();
+-        if(subject.isAuthenticated()){
+-            User user =(User) subject.getPrincipal();
+-            return new ResultVo().setData(user);
+-        }
+-        else
+-            return new ResultVo().setCode(401).setMessage("用户名未登陆");
+-    }
+-    @ApiOperation("注册接口")
+-    @PostMapping("/register")
+-    public ResultVo register(@ApiParam("用户名")String username,@ApiParam("密码") String password) {
+-        log.info("注册接口");
+-        if (username == null || username.equals("")) {
+-            return new ResultVo().setCode(401).setMessage("用户名不能为空");
+-        } else if (password == null || password.equals("")) {
+-            return new ResultVo().setCode(401).setMessage("密码不能为空");
+-        } else if (iUserService.queryById(username) != null) {
+-            return new ResultVo().setCode(401).setMessage("用户名已被占用");
+-        } else {
+-            return new ResultVo().setCode(200).setData(iUserService.insertUser(username, password));
+-        }
+-    }
+-    @ApiOperation("修改密码接口")
+-    @PostMapping("/change")
+-    public ResultVo change(@ApiParam("用户名ID")int userId,@ApiParam("原来的密码")String password1,@ApiParam("修改的密码")String password2,@ApiParam("重复修改的密码")String password3) {
+-        log.info("修改密码");
+-        return new ResultVo().setCode(200).setData(iUserService.changeUser(userId, password1,password2,password3));
+-    }
+-    @ApiOperation("登出接口")
+-    @GetMapping("/logout")
+-    public ResultVo logout() {
+-        log.info("登出接口");
+-        Subject subject = SecurityUtils.getSubject();
+-        subject.logout();
+-        return new ResultVo().setCode(200).setMessage("退出成功");
+-    }
+-    @ApiOperation("用户信息查询接口")
+-    @GetMapping("/select")
+-    public ResultVo select(@ApiParam("用户名") String username) {
+-        log.info("用户信息查询");
+-        User us = iUserService.queryById(username);
+-        Map<String, Object> map = new HashMap<>();
+-        map.put("user", us);
+-        return new ResultVo().setCode(401).setMessage("登录成功").setData(map);
+-    }
+-    @ApiOperation("用户基础信息修改接口")
+-    @GetMapping("/baseMessageUpdate")
+-    public ResultVo baseUpdate(@ApiParam("用户id")int userId,@ApiParam("昵称")String nickname, @ApiParam("电话")String phone, @ApiParam("年龄")String age, @ApiParam("qq")String qq) {
+-        log.info("用户基础信息修改接口");
+-        return new ResultVo().setCode(200).setData(iUserService.updateUer(userId,nickname, phone, age, qq));
+-    }
+-
+-    @ApiOperation("用户图片修改接口")
+-    @GetMapping("/photoUpdate")
+-    public ResultVo photoUpdate(@ApiParam("照片")MultipartFile file,@ApiParam("用户id") int userId) {
+-        return new ResultVo().setCode(200).setData(iUserService.updatePhoto(file, userId));
+-    }
+-    @RequiresRoles("admin")
+-    @ApiOperation("修改审核未通过用户不合格商品数接口")
+-    @GetMapping("/unqualifiedGoodsUpdate")
+-    public ResultVo photoUpdate(@ApiParam("用户名")String userName) {
+-        return new ResultVo().setCode(200).setData(iUserService.unqualifiedGoodsUpdate(userName));
+-    }
+-    @RequiresRoles("admin")
+-    @ApiOperation("查询不合规商品过多的用户")
+-    @GetMapping("/get")
+-    public ResultVo all(@ApiParam("当前页")int current,@ApiParam("大小")int size){
+-        Page<User> page = new Page<>(current, size);
+-        LambdaQueryWrapper<User> userLambdaQueryWrapper = Wrappers.lambdaQuery();
+-        userLambdaQueryWrapper.ge(User::getUnqualifiedGoods,10);
+-        return new ResultVo().setCode(200).setData(iUserService.findByPage(page,userLambdaQueryWrapper));
+-    }
+-    @RequiresRoles("admin")
+-    @ApiOperation("修改审核未通过用户不合格商品数接口")
+-    @GetMapping("/scoreUpdate")
+-    public ResultVo scoreUpdate(@ApiParam("用户名")String userName,double score) {
+-        return new ResultVo().setCode(200).setData(iUserService.scoreUpdate(userName,score));
+-    }
+-}
+Index: fleaMarket/src/main/java/com/example/fleamarket/entity/Follow.java
+===================================================================
+diff --git a/fleaMarket/src/main/java/com/example/fleamarket/entity/Follow.java b/fleaMarket/src/main/java/com/example/fleamarket/entity/Follow.java
+deleted file mode 100644
+--- a/fleaMarket/src/main/java/com/example/fleamarket/entity/Follow.java	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
++++ /dev/null	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
+@@ -1,27 +0,0 @@
+-package com.example.fleamarket.entity;
+-
+-import com.baomidou.mybatisplus.annotation.IdType;
+-import com.baomidou.mybatisplus.annotation.TableId;
+-import com.baomidou.mybatisplus.annotation.TableName;
+-import io.swagger.annotations.ApiModel;
+-import io.swagger.annotations.ApiModelProperty;
+-import lombok.AllArgsConstructor;
+-import lombok.Data;
+-import lombok.EqualsAndHashCode;
+-import lombok.NoArgsConstructor;
+-
+-
+-@TableName("book_context")
+-@Data
+-@NoArgsConstructor
+-@AllArgsConstructor
+-@ApiModel(description = "关注")
+-public class Follow{
+-	@TableId(type = IdType.AUTO)
+-	@ApiModelProperty("主键，自增")
+-	Integer id;
+-	@ApiModelProperty("关注者的id")
+-	Integer followerId;
+-	@ApiModelProperty("被关注者的id")
+-	Integer followedId;
+-}
+Index: fleaMarket/src/main/java/com/example/fleamarket/service/IGoodReportService.java
+===================================================================
+diff --git a/fleaMarket/src/main/java/com/example/fleamarket/service/IGoodReportService.java b/fleaMarket/src/main/java/com/example/fleamarket/service/IGoodReportService.java
+deleted file mode 100644
+--- a/fleaMarket/src/main/java/com/example/fleamarket/service/IGoodReportService.java	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
++++ /dev/null	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
+@@ -1,13 +0,0 @@
+-package com.example.fleamarket.service;
+-
+-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+-import com.baomidou.mybatisplus.core.metadata.IPage;
+-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+-import com.baomidou.mybatisplus.extension.service.IService;
+-import com.example.fleamarket.entity.GoodReport;
+-
+-public interface IGoodReportService extends IService<GoodReport> {
+-    IPage<GoodReport> findByPage(Page<GoodReport> page, LambdaQueryWrapper<GoodReport> userLambdaQueryWrapper);
+-    Boolean insert(String context,int goodId);
+-    Boolean update(String status, int reporId);
+-}
+Index: fleaMarket/src/main/java/com/example/fleamarket/response/ResultVo.java
+===================================================================
+diff --git a/fleaMarket/src/main/java/com/example/fleamarket/response/ResultVo.java b/fleaMarket/src/main/java/com/example/fleamarket/response/ResultVo.java
+deleted file mode 100644
+--- a/fleaMarket/src/main/java/com/example/fleamarket/response/ResultVo.java	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
++++ /dev/null	(revision 7bf437434a86d2eb0d74254a113060de222c0f45)
+@@ -1,24 +0,0 @@
+-package com.example.fleamarket.response;
+-
+-import io.swagger.annotations.ApiModel;
+-import io.swagger.annotations.ApiModelProperty;
+-import lombok.AllArgsConstructor;
+-import lombok.Data;
+-import lombok.NoArgsConstructor;
+-import lombok.experimental.Accessors;
+-
+-@Data
+-@AllArgsConstructor
+-@NoArgsConstructor
+-@Accessors(chain = true)
+-@ApiModel("统一响应对象")
+-public class ResultVo {
+-    @ApiModelProperty("状态码")
+-    private int code;
+-
+-    @ApiModelProperty("信息")
+-    private String message;
+-
+-    @ApiModelProperty("数据")
+-    private Object data;
+-}
+diff --git a/fleaMarket/src/main/resources/application.properties b/fleaMarket/src/main/resources/application.properties
+deleted file mode 100644
